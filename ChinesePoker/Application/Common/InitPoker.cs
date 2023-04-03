@@ -13,7 +13,7 @@ public class InitPoker
             {
                 var initCard = new CardUnit
                 {
-                    Point = i + 1,
+                    CardNumber = i + 1,
                     IndexOfDeck = i * 4 + j,
                     Type = j + 1
                 };

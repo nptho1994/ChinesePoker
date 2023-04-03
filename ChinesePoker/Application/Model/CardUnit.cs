@@ -2,14 +2,14 @@
 
 public class CardUnit
 {
-    public int Point { get; set; }
+    public int CardNumber { get; set; }
     public int Type { get; set; }
     public int IndexOfDeck { get; set; }
 
     public override string ToString()
     {
         var result = string.Empty;
-        result += Point + "";
+        result += CardNumber + "";
         var convertType = string.Empty;
         switch (Type)
         {

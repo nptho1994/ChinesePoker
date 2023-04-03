@@ -5,68 +5,46 @@ namespace pk_Application.Function;
 
 public static class Mapping
 {
-    public static TreeCard MappingStackPoker(TreeTypeCard typeCard)
+    public static TreeCard MappingStackPoker(UserCard userCard)
     {
         var result = new TreeCard();
 
         for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
         {
             var card = new CardUnit();
-            if (typeCard.Spade[i] != null)
+            if (userCard.Spade.Collection[i] != null)
             {
-                card = typeCard.Spade[i];
+                card = userCard.Spade.Collection[i];
             }
-            else if (typeCard.Clover[i] != null)
+            else if (userCard.Clover.Collection[i] != null)
             {
-                card = typeCard.Clover[i];
+                card = userCard.Clover.Collection[i];
             }
-            else if (typeCard.Diamonds[i] != null)
+            else if (userCard.Diamonds.Collection[i] != null)
             {
-                card = typeCard.Diamonds[i];
+                card = userCard.Diamonds.Collection[i];
             }
-            else if (typeCard.Hearts[i] != null)
+            else if (userCard.Hearts.Collection[i] != null)
             {
-                card = typeCard.Hearts[i];
+                card = userCard.Hearts.Collection[i];
             }
 
-            if (i < Constant.ChinesePoker.MaxNumberOfStact1)
+            if (card == null)
+            {
+                throw new Exception("The card is null");
+            }
+
+            if (i < Constant.ChinesePoker.MaxNumberOfStack1)
             {
                 result.Stack1.Add(card);
             }
-            else if (i < Constant.ChinesePoker.MaxNumberOfStact1 + Constant.ChinesePoker.MaxNumberOfStact2)
+            else if (i < Constant.ChinesePoker.MaxNumberOfStack1 + Constant.ChinesePoker.MaxNumberOfStack2)
             {
                 result.Stack2.Add(card);
             }
             else
             {
                 result.Stack3.Add(card);
-            }
-        }
-
-        return result;
-    }
-
-    public static TreeTypeCard MappingTypeCard(List<CardUnit> poker)
-    {
-        var result = new TreeTypeCard();
-
-        for (int i = 0; i < poker.Count; i++)
-        {
-            if (poker[i].Type == 1)
-            {
-                result.Spade[poker[i].Point] = poker[i];
-            }
-            else if (poker[i].Type == 1)
-            {
-                result.Clover[poker[i].Point] = poker[i];
-            }
-            else if (poker[i].Type == 1)
-            {
-                result.Diamonds[poker[i].Point] = poker[i];
-            }
-            else if (poker[i].Type == 1)
-            {
-                result.Hearts[poker[i].Point] = poker[i];
             }
         }
 

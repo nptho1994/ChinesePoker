@@ -10,17 +10,5 @@ public class TreeCard
 
     public TreeCard()
     {
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfStact1; i++)
-        {
-            Stack1.Add(null);
-        }
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfStact2; i++)
-        {
-            Stack2.Add(null);
-        }
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfStact3; i++)
-        {
-            Stack3.Add(null);
-        }
     }
 }
