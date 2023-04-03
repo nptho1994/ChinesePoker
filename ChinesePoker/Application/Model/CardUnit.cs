@@ -9,7 +9,7 @@ public class CardUnit
     public override string ToString()
     {
         var result = string.Empty;
-        result += Point + 1 + "";
+        result += Point + "";
         var convertType = string.Empty;
         switch (Type)
         {
