@@ -14,6 +14,7 @@ public class UserCard
     public List<CardUnit> CoupleCard { get; set; }
     public List<CardUnit> ThreeCard { get; set; }
     public List<CardUnit> FourCard { get; set; }
+    public List<CardUnit> Straight { get; set; }
 
     public UserCard(List<CardUnit> initCard)
     {
@@ -48,11 +49,14 @@ public class UserCard
         Clover = new TypeCard(type2);
         Diamonds = new TypeCard(type3);
         Hearts = new TypeCard(type4);
+
         OneCard = new List<CardUnit>();
         CoupleCard = new List<CardUnit>();
         ThreeCard = new List<CardUnit>();
         FourCard = new List<CardUnit>();
-        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        Straight = new List<CardUnit>();
+        var countStraight = 0;
+        for (var i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
         {
             var numberOfCard = 0;
             numberOfCard += Spade.Collection[i] != null ? 1 : 0;
@@ -136,6 +140,61 @@ public class UserCard
                 }
             }
 
+            if (numberOfCard == 0)
+            {
+                countStraight = 0;
+            } 
+            else
+            {
+                countStraight++;
+            }
+
+            if (countStraight >= 5)
+            {
+                if (countStraight == 5)
+                {
+                    for (var j = 4; j >= 0; j--)
+                    { 
+                        var card = Spade.Collection[i - j];
+                        if (card == null)
+                        {
+                            card = Clover.Collection[i - j];
+                        }
+
+                        if (card == null)
+                        {
+                            card = Diamonds.Collection[i - j];
+                        }
+
+                        if (card == null)
+                        {
+                            card = Hearts.Collection[i - j];
+                        }
+
+                        Straight.Add(card);
+                    }
+                } 
+                else
+                {
+                    var card = Spade.Collection[i];
+                    if (card == null)
+                    {
+                        card = Clover.Collection[i];
+                    }
+
+                    if (card == null)
+                    {
+                        card = Diamonds.Collection[i];
+                    }
+
+                    if (card == null)
+                    {
+                        card = Hearts.Collection[i];
+                    }
+
+                    Straight.Add(card);
+                }
+            }
         }
     }   
 }

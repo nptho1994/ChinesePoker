@@ -47,6 +47,10 @@
             rtb_User2 = new RichTextBox();
             rtb_User4 = new RichTextBox();
             rtb_User3 = new RichTextBox();
+            lbl_Stack3 = new Label();
+            lbl_Stack2 = new Label();
+            lbl_Stack1 = new Label();
+            lbl_Description = new Label();
             SuspendLayout();
             // 
             // btn_User1_Three1
@@ -231,11 +235,55 @@
             rtb_User3.TabIndex = 16;
             rtb_User3.Text = "";
             // 
-            // DemoChinesePoker
+            // lbl_Stack3
+            // 
+            lbl_Stack3.AutoSize = true;
+            lbl_Stack3.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_Stack3.Location = new Point(562, 18);
+            lbl_Stack3.Name = "lbl_Stack3";
+            lbl_Stack3.Size = new Size(129, 47);
+            lbl_Stack3.TabIndex = 18;
+            lbl_Stack3.Text = "Stack3";
+            // 
+            // lbl_Stack2
+            // 
+            lbl_Stack2.AutoSize = true;
+            lbl_Stack2.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_Stack2.Location = new Point(562, 112);
+            lbl_Stack2.Name = "lbl_Stack2";
+            lbl_Stack2.Size = new Size(129, 47);
+            lbl_Stack2.TabIndex = 19;
+            lbl_Stack2.Text = "Stack2";
+            // 
+            // lbl_Stack1
+            // 
+            lbl_Stack1.AutoSize = true;
+            lbl_Stack1.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_Stack1.Location = new Point(562, 206);
+            lbl_Stack1.Name = "lbl_Stack1";
+            lbl_Stack1.Size = new Size(129, 47);
+            lbl_Stack1.TabIndex = 20;
+            lbl_Stack1.Text = "Stack1";
+            // 
+            // lbl_Description
+            // 
+            lbl_Description.AutoSize = true;
+            lbl_Description.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lbl_Description.Location = new Point(217, 297);
+            lbl_Description.Name = "lbl_Description";
+            lbl_Description.Size = new Size(209, 47);
+            lbl_Description.TabIndex = 21;
+            lbl_Description.Text = "Description";
+            // 
+            // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 585);
+            Controls.Add(lbl_Description);
+            Controls.Add(lbl_Stack1);
+            Controls.Add(lbl_Stack2);
+            Controls.Add(lbl_Stack3);
             Controls.Add(rtb_User4);
             Controls.Add(rtb_User3);
             Controls.Add(rtb_User2);
@@ -255,9 +303,10 @@
             Controls.Add(btn_User1_Three3);
             Controls.Add(btn_User1_Three2);
             Controls.Add(btn_User1_Three1);
-            Name = "DemoChinesePoker";
+            Name = "Form1";
             Text = "Deno Chinese Poker";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -281,5 +330,9 @@
         private RichTextBox rtb_User2;
         private RichTextBox rtb_User4;
         private RichTextBox rtb_User3;
+        private Label lbl_Stack3;
+        private Label lbl_Stack2;
+        private Label lbl_Stack1;
+        private Label lbl_Description;
     }
 }

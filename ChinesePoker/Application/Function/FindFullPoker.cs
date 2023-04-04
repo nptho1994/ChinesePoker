@@ -41,14 +41,14 @@ public static class FindFullPoker
 
         // Find stack 1
         var newUserCardAfterFindStact1 = FindBestStack(userCard);
-        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfStack1; i++)
+        for (var i = 0; i < Constant.Setting.MaxNumberOfStack1; i++)
         {
             result.Stack1.Add(CardIsSorted[i]);
         }
 
         // Find stack 2
         var newUserCardAfterFindStact2 = FindBestStack(newUserCardAfterFindStact1);
-        for (var i = Constant.ChinesePoker.MaxNumberOfStack1; i < Constant.ChinesePoker.MaxNumberOfStack1 + Constant.ChinesePoker.MaxNumberOfStack2; i++)
+        for (var i = Constant.Setting.MaxNumberOfStack1; i < Constant.Setting.MaxNumberOfStack1 + Constant.Setting.MaxNumberOfStack2; i++)
         {
             result.Stack2.Add(CardIsSorted[i]);
         }
@@ -122,19 +122,19 @@ public static class FindFullPoker
             return new UserCard(totalUserCard);
         }
 
-        if (userCard.Spade.TotalCardNumber > 5)
+        if (userCard.Spade.TotalCardNumber > 4)
         {
             return FindFlush(userCard.Spade, totalUserCard);
         }
-        if (userCard.Clover.TotalCardNumber > 5)
+        if (userCard.Clover.TotalCardNumber > 4)
         {
             return FindFlush(userCard.Clover, totalUserCard);
         }
-        if (userCard.Diamonds.TotalCardNumber > 5)
+        if (userCard.Diamonds.TotalCardNumber > 4)
         {
             return FindFlush(userCard.Diamonds, totalUserCard);
         }
-        if (userCard.Hearts.TotalCardNumber > 5)
+        if (userCard.Hearts.TotalCardNumber > 4)
         {
             return FindFlush(userCard.Hearts, totalUserCard);
         }
@@ -143,7 +143,7 @@ public static class FindFullPoker
         {
             for (var i = 0; i < 3; i++)
             {
-                var card = userCard.FourCard[userCard.ThreeCard.Count() - i - 1];
+                var card = userCard.ThreeCard[userCard.ThreeCard.Count() - i - 1];
                 CardIsSorted.Add(card);
                 var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
                 totalUserCard.RemoveAt(findCard);
@@ -236,7 +236,7 @@ public static class FindFullPoker
 
     private static TreeCard? FindDragonHall(UserCard userCard)
     {
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        for (int i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
         {
             if (userCard.Spade.Collection[i] == null 
                 && userCard.Clover.Collection[i] == null 

@@ -2,7 +2,7 @@
 
 public static class Constant
 {
-    public static class ChinesePoker
+    public static class Setting
     {
         public static int MaxNumberOfCardsOfDeck = 52;
         public static int MaxNumberOfCardsOfUser = 13;

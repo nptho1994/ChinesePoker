@@ -13,7 +13,7 @@ public class TypeCard
     {
         TotalCardNumber = 0;
         PointOfCollection = 0;
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        for (int i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
         {
             var card = type[i];
             if (card != null)

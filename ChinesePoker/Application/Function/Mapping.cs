@@ -9,7 +9,7 @@ public static class Mapping
     {
         var result = new TreeCard();
 
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        for (int i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
         {
             var card = new CardUnit();
             if (userCard.Spade.Collection[i] != null)
@@ -34,11 +34,11 @@ public static class Mapping
                 throw new Exception("The card is null");
             }
 
-            if (i < Constant.ChinesePoker.MaxNumberOfStack1)
+            if (i < Constant.Setting.MaxNumberOfStack1)
             {
                 result.Stack1.Add(card);
             }
-            else if (i < Constant.ChinesePoker.MaxNumberOfStack1 + Constant.ChinesePoker.MaxNumberOfStack2)
+            else if (i < Constant.Setting.MaxNumberOfStack1 + Constant.Setting.MaxNumberOfStack2)
             {
                 result.Stack2.Add(card);
             }

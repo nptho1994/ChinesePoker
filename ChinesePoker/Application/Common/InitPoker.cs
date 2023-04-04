@@ -7,9 +7,9 @@ public class InitPoker
     public List<CardUnit> PokerInitiation()
     {
         var result = new List<CardUnit>();
-        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        for (var i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
         {
-            for (var j = 0; j < Constant.ChinesePoker.MaxNumberOfUser; j++)
+            for (var j = 0; j < Constant.Setting.MaxNumberOfUser; j++)
             {
                 var initCard = new CardUnit
                 {
@@ -27,10 +27,10 @@ public class InitPoker
     public List<CardUnit> RandomSwap(List<CardUnit> pokerStandard)
     {
         var result = new List<CardUnit>();
-        for (int i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfDeck; i++)
+        for (int i = 0; i < Constant.Setting.MaxNumberOfCardsOfDeck; i++)
         {
             Random rnd = new Random();
-            var numberRandomCard = rnd.Next(Constant.ChinesePoker.MaxNumberOfCardsOfDeck - i);
+            var numberRandomCard = rnd.Next(Constant.Setting.MaxNumberOfCardsOfDeck - i);
             var randomCard = pokerStandard[numberRandomCard];
             result.Add(randomCard);
             pokerStandard.Remove(randomCard);
