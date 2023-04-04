@@ -1,11 +1,13 @@
 ﻿using pk_Application.Common;
 using pk_Application.Model;
 using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
 
 namespace pk_Application.Function;
 
 public static class FindFullPoker
 {
+    private static List<CardUnit> CardIsSorted = new List<CardUnit>();
     public static TreeCard FindBestFullPoker(UserCard userCard)
     {
         var result = new TreeCard();
@@ -34,34 +36,202 @@ public static class FindFullPoker
 
     private static TreeCard FindDefaultSort(UserCard userCard)
     {
+        CardIsSorted = new List<CardUnit>();
         var result = new TreeCard();
-        var cardUnits = new List<CardUnit>();
-        cardUnits.AddRange(userCard.Spade.RealCard);
-        cardUnits.AddRange(userCard.Clover.RealCard);
-        cardUnits.AddRange(userCard.Diamonds.RealCard);
-        cardUnits.AddRange(userCard.Hearts.RealCard);
-        cardUnits = cardUnits.OrderByDescending(x => x.CardNumber)
-            .ThenByDescending(x => x.Type).ToList();
-        if (cardUnits.Count != 13)
-        {
-            throw new Exception("FindDefaultSort: Invalid card number");
-        }    
 
-        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        // Find stack 1
+        var newUserCardAfterFindStact1 = FindBestStack(userCard);
+        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfStack1; i++)
         {
-            if (i < Constant.ChinesePoker.MaxNumberOfStack1)
-            {
-                result.Stack1.Add(cardUnits[i]);
-            } else if (i < Constant.ChinesePoker.MaxNumberOfStack1 + Constant.ChinesePoker.MaxNumberOfStack2)
-            {
-                result.Stack2.Add(cardUnits[i]);
-            } else
-            {
-                result.Stack3.Add(cardUnits[i]);
-            }
+            result.Stack1.Add(CardIsSorted[i]);
+        }
+
+        // Find stack 2
+        var newUserCardAfterFindStact2 = FindBestStack(newUserCardAfterFindStact1);
+        for (var i = Constant.ChinesePoker.MaxNumberOfStack1; i < Constant.ChinesePoker.MaxNumberOfStack1 + Constant.ChinesePoker.MaxNumberOfStack2; i++)
+        {
+            result.Stack2.Add(CardIsSorted[i]);
+        }
+
+        // Find stack 3
+        foreach (var item in newUserCardAfterFindStact2.TotalUserCard)
+        {
+            result.Stack3.Add(item);
         }
 
         return result;
+    }
+
+    private static UserCard FindBestStack(UserCard userCard)
+    {
+        var totalUserCard = userCard.TotalUserCard;
+        if (userCard.FourCard.Count() > 0)
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                var card = userCard.FourCard[userCard.FourCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            if (userCard.OneCard.Count() == 0 && userCard.CoupleCard.Count() == 0)
+            {
+                var card = userCard.ThreeCard[0];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+            else if (userCard.OneCard.Count() == 0)
+            {
+                var card = userCard.CoupleCard[0];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+            else
+            {
+                var card = userCard.OneCard[0];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            return new UserCard(totalUserCard);
+        }
+
+        if (userCard.ThreeCard.Count() > 0 && userCard.CoupleCard.Count() > 0)
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                var card = userCard.ThreeCard[userCard.ThreeCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            var card1 = userCard.CoupleCard[0];
+            CardIsSorted.Add(card1);
+            var findCard1 = totalUserCard.FindLastIndex(x => x.CardNumber == card1.CardNumber && x.Type == card1.Type);
+            totalUserCard.RemoveAt(findCard1);
+            var card2 = userCard.CoupleCard[userCard.CoupleCard.Count() - 1];
+            CardIsSorted.Add(card2);
+            var findCard2 = totalUserCard.FindLastIndex(x => x.CardNumber == card2.CardNumber && x.Type == card2.Type);
+            totalUserCard.RemoveAt(findCard2);
+
+            return new UserCard(totalUserCard);
+        }
+
+        if (userCard.Spade.TotalCardNumber > 5)
+        {
+            return FindFlush(userCard.Spade, totalUserCard);
+        }
+        if (userCard.Clover.TotalCardNumber > 5)
+        {
+            return FindFlush(userCard.Clover, totalUserCard);
+        }
+        if (userCard.Diamonds.TotalCardNumber > 5)
+        {
+            return FindFlush(userCard.Diamonds, totalUserCard);
+        }
+        if (userCard.Hearts.TotalCardNumber > 5)
+        {
+            return FindFlush(userCard.Hearts, totalUserCard);
+        }
+
+        if (userCard.ThreeCard.Count() > 0 && userCard.CoupleCard.Count() == 0)
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                var card = userCard.FourCard[userCard.ThreeCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            var card1 = userCard.OneCard[0];
+            CardIsSorted.Add(card1);
+            var findCard1 = totalUserCard.FindLastIndex(x => x.CardNumber == card1.CardNumber && x.Type == card1.Type);
+            totalUserCard.RemoveAt(findCard1);
+            var card2 = userCard.OneCard[1];
+            CardIsSorted.Add(card2);
+            var findCard2 = totalUserCard.FindLastIndex(x => x.CardNumber == card2.CardNumber && x.Type == card2.Type);
+            totalUserCard.RemoveAt(findCard2);
+
+            return new UserCard(totalUserCard);
+        }
+
+        if (userCard.CoupleCard.Count() > 2)
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                var card = userCard.CoupleCard[userCard.CoupleCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            var card1 = userCard.OneCard[0];
+            CardIsSorted.Add(card1);
+            var findCard1 = totalUserCard.FindLastIndex(x => x.CardNumber == card1.CardNumber && x.Type == card1.Type);
+            totalUserCard.RemoveAt(findCard1);
+
+            return new UserCard(totalUserCard);
+        }
+
+        if (userCard.CoupleCard.Count() > 0)
+        {
+            for (var i = 0; i < 2; i++)
+            {
+                var card = userCard.CoupleCard[userCard.CoupleCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            var card1 = userCard.OneCard[0];
+            CardIsSorted.Add(card1);
+            var findCard1 = totalUserCard.FindLastIndex(x => x.CardNumber == card1.CardNumber && x.Type == card1.Type);
+            totalUserCard.RemoveAt(findCard1);
+            var card2 = userCard.OneCard[1];
+            CardIsSorted.Add(card2);
+            var findCard2 = totalUserCard.FindLastIndex(x => x.CardNumber == card2.CardNumber && x.Type == card2.Type);
+            totalUserCard.RemoveAt(findCard2);
+            var card3 = userCard.OneCard[2];
+            CardIsSorted.Add(card3);
+            var findCard3 = totalUserCard.FindLastIndex(x => x.CardNumber == card3.CardNumber && x.Type == card3.Type);
+            totalUserCard.RemoveAt(findCard3);
+
+            return new UserCard(totalUserCard);
+        }
+
+        if (userCard.OneCard.Count > 4)
+        { 
+            for (var i = 0; i < 5; i++)
+            {
+                var card = userCard.OneCard[userCard.OneCard.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+
+            return new UserCard(totalUserCard);
+        }
+        
+
+        return new UserCard(totalUserCard);
+    }
+
+    private static UserCard FindFlush(TypeCard typeCard, List<CardUnit> totalUserCard)
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            var card = typeCard.RealCard[typeCard.TotalCardNumber - i - 1];
+            CardIsSorted.Add(card);
+            var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+            totalUserCard.RemoveAt(findCard);
+        }
+        return new UserCard(totalUserCard);
     }
 
     private static TreeCard? FindDragonHall(UserCard userCard)

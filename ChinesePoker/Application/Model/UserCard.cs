@@ -10,6 +10,10 @@ public class UserCard
     public TypeCard Clover { get; set; }
     public TypeCard Diamonds { get; set; }
     public TypeCard Hearts { get; set; }
+    public List<CardUnit> OneCard { get; set; }
+    public List<CardUnit> CoupleCard { get; set; }
+    public List<CardUnit> ThreeCard { get; set; }
+    public List<CardUnit> FourCard { get; set; }
 
     public UserCard(List<CardUnit> initCard)
     {
@@ -44,5 +48,94 @@ public class UserCard
         Clover = new TypeCard(type2);
         Diamonds = new TypeCard(type3);
         Hearts = new TypeCard(type4);
+        OneCard = new List<CardUnit>();
+        CoupleCard = new List<CardUnit>();
+        ThreeCard = new List<CardUnit>();
+        FourCard = new List<CardUnit>();
+        for (var i = 0; i < Constant.ChinesePoker.MaxNumberOfCardsOfUser; i++)
+        {
+            var numberOfCard = 0;
+            numberOfCard += Spade.Collection[i] != null ? 1 : 0;
+            numberOfCard += Clover.Collection[i] != null ? 1 : 0;
+            numberOfCard += Diamonds.Collection[i] != null ? 1 : 0;
+            numberOfCard += Hearts.Collection[i] != null ? 1 : 0;
+            if (numberOfCard == 1)
+            {
+                if (Spade.Collection[i] != null)
+                {
+                    OneCard.Add(Spade.Collection[i]);
+                }
+                if (Clover.Collection[i] != null)
+                {
+                    OneCard.Add(Clover.Collection[i]);
+                }
+                if (Diamonds.Collection[i] != null)
+                {
+                    OneCard.Add(Diamonds.Collection[i]);
+                }
+                if (Hearts.Collection[i] != null)
+                {
+                    OneCard.Add(Hearts.Collection[i]);
+                }
+            }
+            else if (numberOfCard == 2)
+            {
+                if (Spade.Collection[i] != null)
+                {
+                    CoupleCard.Add(Spade.Collection[i]);
+                }
+                if (Clover.Collection[i] != null)
+                {
+                    CoupleCard.Add(Clover.Collection[i]);
+                }
+                if (Diamonds.Collection[i] != null)
+                {
+                    CoupleCard.Add(Diamonds.Collection[i]);
+                }
+                if (Hearts.Collection[i] != null)
+                {
+                    CoupleCard.Add(Hearts.Collection[i]);
+                }
+            } 
+            else if (numberOfCard == 3)
+            {
+                if (Spade.Collection[i] != null)
+                {
+                    ThreeCard.Add(Spade.Collection[i]);
+                }
+                if (Clover.Collection[i] != null)
+                {
+                    ThreeCard.Add(Clover.Collection[i]);
+                }
+                if (Diamonds.Collection[i] != null)
+                {
+                    ThreeCard.Add(Diamonds.Collection[i]);
+                }
+                if (Hearts.Collection[i] != null)
+                {
+                    ThreeCard.Add(Hearts.Collection[i]);
+                }
+            }
+            else if (numberOfCard == 4)
+            {
+                if (Spade.Collection[i] != null)
+                {
+                    FourCard.Add(Spade.Collection[i]);
+                }
+                if (Clover.Collection[i] != null)
+                {
+                    FourCard.Add(Clover.Collection[i]);
+                }
+                if (Diamonds.Collection[i] != null)
+                {
+                    FourCard.Add(Diamonds.Collection[i]);
+                }
+                if (Hearts.Collection[i] != null)
+                {
+                    FourCard.Add(Hearts.Collection[i]);
+                }
+            }
+
+        }
     }   
 }
