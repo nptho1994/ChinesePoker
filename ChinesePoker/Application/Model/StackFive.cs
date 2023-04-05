@@ -15,8 +15,8 @@ public class StackFive
 
     public StackFive(List<CardUnit> init)
     {
-        TotalCard = init;
-        var dividation = new UserCard(init);
+        TotalCard = init.OrderBy(x => x.CardNumber).ToList();
+        var dividation = new UserCard(TotalCard);
         if (dividation.Straight.Count >= 5 &&
             (dividation.Spade.TotalCardNumber == 5
             || dividation.Clover.TotalCardNumber == 5
@@ -73,16 +73,16 @@ public class StackFive
         {
             Type = TypeEnum.ThreeCard;
             Score = dividation.ThreeCard[0].CardNumber * 13 * 13
-                + dividation.OneCard[0].CardNumber * 13
-                + +dividation.OneCard[1].CardNumber;
+                + dividation.OneCard[1].CardNumber * 13
+                + +dividation.OneCard[0].CardNumber;
             return;
         }
 
         if (dividation.CoupleCard.Count > 2)
         {
             Type = TypeEnum.TwoCoupleCard;
-            Score = dividation.CoupleCard[0].CardNumber * 13 * 13
-                + dividation.CoupleCard[2].CardNumber * 13
+            Score = dividation.CoupleCard[2].CardNumber * 13 * 13
+                + dividation.CoupleCard[0].CardNumber * 13
                 + dividation.OneCard[0].CardNumber;
             return;
         }
@@ -91,9 +91,9 @@ public class StackFive
         {
             Type = TypeEnum.CoupleCard;
             Score = dividation.CoupleCard[0].CardNumber * 13 * 13 * 13
-                + dividation.OneCard[0].CardNumber * 13 * 13
+                + dividation.OneCard[2].CardNumber * 13 * 13
                 + dividation.OneCard[1].CardNumber * 13
-                + dividation.OneCard[2].CardNumber;
+                + dividation.OneCard[0].CardNumber;
             return;
         }
 

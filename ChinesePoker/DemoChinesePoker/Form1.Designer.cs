@@ -243,7 +243,7 @@
             lbl_Stack3.Name = "lbl_Stack3";
             lbl_Stack3.Size = new Size(129, 47);
             lbl_Stack3.TabIndex = 18;
-            lbl_Stack3.Text = "Stack3";
+            lbl_Stack3.Text = "StackFirst";
             // 
             // lbl_Stack2
             // 
@@ -253,7 +253,7 @@
             lbl_Stack2.Name = "lbl_Stack2";
             lbl_Stack2.Size = new Size(129, 47);
             lbl_Stack2.TabIndex = 19;
-            lbl_Stack2.Text = "Stack2";
+            lbl_Stack2.Text = "StackTwo";
             // 
             // lbl_Stack1
             // 
@@ -263,7 +263,7 @@
             lbl_Stack1.Name = "lbl_Stack1";
             lbl_Stack1.Size = new Size(129, 47);
             lbl_Stack1.TabIndex = 20;
-            lbl_Stack1.Text = "Stack1";
+            lbl_Stack1.Text = "StackThree";
             // 
             // lbl_Description
             // 

@@ -12,14 +12,21 @@ public static class FindFullPoker
     {
         var result = new TreeCard();
 
-        // 1 FindDragonHall
+        // 1 FindDragonHallFlush
+        var dragonHallFlush = FindDragonHallFlush(userCard);
+        if (dragonHallFlush != null)
+        {
+            return dragonHallFlush;
+        }
+
+        // 2 FindDragonHall
         var dragonHall = FindDragonHall(userCard);
         if (dragonHall != null)
         {
             return dragonHall;
         }
 
-        // 2 Royal Flush
+        // 3 Royal Flush
         var royalFlush = FindRoyalFlush(userCard);
         if (royalFlush != null)
         {
@@ -43,20 +50,20 @@ public static class FindFullPoker
         var newUserCardAfterFindStact1 = FindBestStack(userCard);
         for (var i = 0; i < Constant.Setting.MaxNumberOfStack1; i++)
         {
-            result.Stack1.Add(CardIsSorted[i]);
+            result.StackThree.Add(CardIsSorted[i]);
         }
 
         // Find stack 2
         var newUserCardAfterFindStact2 = FindBestStack(newUserCardAfterFindStact1);
         for (var i = Constant.Setting.MaxNumberOfStack1; i < Constant.Setting.MaxNumberOfStack1 + Constant.Setting.MaxNumberOfStack2; i++)
         {
-            result.Stack2.Add(CardIsSorted[i]);
+            result.StackTwo.Add(CardIsSorted[i]);
         }
 
         // Find stack 3
         foreach (var item in newUserCardAfterFindStact2.TotalUserCard)
         {
-            result.Stack3.Add(item);
+            result.StackFirst.Add(item);
         }
 
         return result;
@@ -114,7 +121,7 @@ public static class FindFullPoker
             CardIsSorted.Add(card1);
             var findCard1 = totalUserCard.FindLastIndex(x => x.CardNumber == card1.CardNumber && x.Type == card1.Type);
             totalUserCard.RemoveAt(findCard1);
-            var card2 = userCard.CoupleCard[userCard.CoupleCard.Count() - 1];
+            var card2 = userCard.CoupleCard[1];
             CardIsSorted.Add(card2);
             var findCard2 = totalUserCard.FindLastIndex(x => x.CardNumber == card2.CardNumber && x.Type == card2.Type);
             totalUserCard.RemoveAt(findCard2);
@@ -122,21 +129,33 @@ public static class FindFullPoker
             return new UserCard(totalUserCard);
         }
 
-        if (userCard.Spade.TotalCardNumber > 4)
+        if (userCard.Spade.TotalCardNumber >= 5)
         {
             return FindFlush(userCard.Spade, totalUserCard);
         }
-        if (userCard.Clover.TotalCardNumber > 4)
+        if (userCard.Clover.TotalCardNumber >= 5)
         {
             return FindFlush(userCard.Clover, totalUserCard);
         }
-        if (userCard.Diamonds.TotalCardNumber > 4)
+        if (userCard.Diamonds.TotalCardNumber >= 5)
         {
             return FindFlush(userCard.Diamonds, totalUserCard);
         }
-        if (userCard.Hearts.TotalCardNumber > 4)
+        if (userCard.Hearts.TotalCardNumber >= 5)
         {
             return FindFlush(userCard.Hearts, totalUserCard);
+        }
+
+        if (userCard.Straight.Count >= 5)
+        {
+            for (var i = 0; i < 5; i++)
+            {
+                var card = userCard.Straight[userCard.Straight.Count() - i - 1];
+                CardIsSorted.Add(card);
+                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                totalUserCard.RemoveAt(findCard);
+            }
+            return new UserCard(totalUserCard);
         }
 
         if (userCard.ThreeCard.Count() > 0 && userCard.CoupleCard.Count() == 0)
@@ -165,10 +184,20 @@ public static class FindFullPoker
         {
             for (var i = 0; i < 4; i++)
             {
-                var card = userCard.CoupleCard[userCard.CoupleCard.Count() - i - 1];
-                CardIsSorted.Add(card);
-                var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
-                totalUserCard.RemoveAt(findCard);
+                if (i < 2)
+                {
+                    var card = userCard.CoupleCard[userCard.CoupleCard.Count() - i - 1];
+                    CardIsSorted.Add(card);
+                    var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                    totalUserCard.RemoveAt(findCard);
+                }
+                else
+                {
+                    var card = userCard.CoupleCard[i - 2];
+                    CardIsSorted.Add(card);
+                    var findCard = totalUserCard.FindLastIndex(x => x.CardNumber == card.CardNumber && x.Type == card.Type);
+                    totalUserCard.RemoveAt(findCard);
+                }
             }
 
             var card1 = userCard.OneCard[0];
@@ -205,7 +234,7 @@ public static class FindFullPoker
             return new UserCard(totalUserCard);
         }
 
-        if (userCard.OneCard.Count > 4)
+        if (userCard.OneCard.Count >= 5)
         { 
             for (var i = 0; i < 5; i++)
             {
@@ -232,6 +261,31 @@ public static class FindFullPoker
             totalUserCard.RemoveAt(findCard);
         }
         return new UserCard(totalUserCard);
+    }
+
+    private static TreeCard? FindDragonHallFlush(UserCard userCard)
+    {
+        if (userCard.Spade.TotalCardNumber == 13)
+        {
+            return new TreeCard(userCard.Spade.RealCard);
+        }
+
+        if (userCard.Clover.TotalCardNumber == 13)
+        {
+            return new TreeCard(userCard.Clover.RealCard);
+        }
+
+        if (userCard.Diamonds.TotalCardNumber == 13)
+        {
+            return new TreeCard(userCard.Diamonds.RealCard);
+        }
+
+        if (userCard.Hearts.TotalCardNumber == 13)
+        {
+            return new TreeCard(userCard.Hearts.RealCard);
+        }
+
+        return null;
     }
 
     private static TreeCard? FindDragonHall(UserCard userCard)
@@ -275,7 +329,7 @@ public static class FindFullPoker
             for (var i = 0; i < 3; i++)
             {
                 var card = userCard.Spade.RealCard[i];
-                result.Stack3.Add(card);
+                result.StackFirst.Add(card);
                 newSpadeCollection[card.CardNumber] = null;
             }
             userCard.Spade = new TypeCard(newSpadeCollection);
@@ -287,7 +341,7 @@ public static class FindFullPoker
             for (var i = 0; i < 3; i++)
             {
                 var card = userCard.Clover.RealCard[i];
-                result.Stack3.Add(card);
+                result.StackFirst.Add(card);
                 newCloverCollection[card.CardNumber] = null;
             }
             userCard.Clover = new TypeCard(newCloverCollection);
@@ -299,7 +353,7 @@ public static class FindFullPoker
             for (var i = 0; i < 3; i++)
             {
                 var card = userCard.Diamonds.RealCard[i];
-                result.Stack3.Add(card);
+                result.StackFirst.Add(card);
                 newDiamondsCollection[card.CardNumber] = null;
             }
             userCard.Diamonds = new TypeCard(newDiamondsCollection);
@@ -311,7 +365,7 @@ public static class FindFullPoker
             for (var i = 0; i < 3; i++)
             {
                 var card = userCard.Hearts.RealCard[i];
-                result.Stack3.Add(card);
+                result.StackFirst.Add(card);
                 newHeartsCollection[card.CardNumber] = null;
             }
             userCard.Hearts = new TypeCard(newHeartsCollection);
@@ -327,7 +381,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Spade.RealCard[i];
-                result.Stack1.Add(card);
+                result.StackThree.Add(card);
                 newSpadeCollection[card.CardNumber] = null;
             }
             userCard.Spade = new TypeCard(newSpadeCollection);
@@ -340,7 +394,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Clover.RealCard[i];
-                result.Stack1.Add(card);
+                result.StackThree.Add(card);
                 newCloverCollection[card.CardNumber] = null;
             }
             userCard.Clover = new TypeCard(newCloverCollection);
@@ -354,7 +408,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Diamonds.RealCard[i];
-                result.Stack1.Add(card);
+                result.StackThree.Add(card);
                 newDiamondsCollection[card.CardNumber] = null;
             }
             userCard.Diamonds = new TypeCard(newDiamondsCollection);
@@ -368,7 +422,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Hearts.RealCard[i];
-                result.Stack1.Add(card);
+                result.StackThree.Add(card);
                 newHeartsCollection[card.CardNumber] = null;
             }
             userCard.Hearts = new TypeCard(newHeartsCollection);
@@ -382,7 +436,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Spade.RealCard[i];
-                result.Stack2.Add(card);
+                result.StackTwo.Add(card);
                 newSpadeCollection[card.CardNumber] = null;
             }
             userCard.Spade = new TypeCard(newSpadeCollection);
@@ -394,7 +448,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Clover.RealCard[i];
-                result.Stack2.Add(card);
+                result.StackTwo.Add(card);
                 newCloverCollection[card.CardNumber] = null;
             }
             userCard.Clover = new TypeCard(newCloverCollection);
@@ -406,7 +460,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Diamonds.RealCard[i];
-                result.Stack2.Add(card);
+                result.StackTwo.Add(card);
                 newDiamondsCollection[card.CardNumber] = null;
             }
             userCard.Diamonds = new TypeCard(newDiamondsCollection);
@@ -418,7 +472,7 @@ public static class FindFullPoker
             for (var i = 0; i < 5; i++)
             {
                 var card = userCard.Hearts.RealCard[i];
-                result.Stack2.Add(card);
+                result.StackTwo.Add(card);
                 newHeartsCollection[card.CardNumber] = null;
             }
             userCard.Hearts = new TypeCard(newHeartsCollection);

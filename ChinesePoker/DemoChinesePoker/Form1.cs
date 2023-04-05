@@ -11,6 +11,10 @@ namespace DemoChinesePoker
         public Form1()
         {
             InitializeComponent();
+            lbl_Description.Text = string.Empty;
+            lbl_Stack1.Text = string.Empty;
+            lbl_Stack2.Text = string.Empty;
+            lbl_Stack3.Text = string.Empty;
         }
 
         private void btn_DistributeTheCards_Click(object sender, EventArgs e)
@@ -68,12 +72,12 @@ namespace DemoChinesePoker
             _cardOfUser1 = FindFullPoker.FindBestFullPoker(cardOfUser);
             var collectionCard = new CollectionCard(_cardOfUser1);
 
-            if (collectionCard.Stack3.Type > collectionCard.Stack2.Type
-                || (collectionCard.Stack3.Type == collectionCard.Stack2.Type
-                    && collectionCard.Stack3.Score > collectionCard.Stack2.Score)
-                || collectionCard.Stack2.Type > collectionCard.Stack1.Type
-                || (collectionCard.Stack2.Type == collectionCard.Stack1.Type
-                    && collectionCard.Stack2.Score > collectionCard.Stack1.Score))
+            if (collectionCard.StackFirst.Type > collectionCard.StackTwo.Type
+                || (collectionCard.StackFirst.Type == collectionCard.StackTwo.Type
+                    && collectionCard.StackFirst.Score > collectionCard.StackTwo.Score)
+                || collectionCard.StackTwo.Type > collectionCard.StackThree.Type
+                || (collectionCard.StackTwo.Type == collectionCard.StackThree.Type
+                    && collectionCard.StackTwo.Score > collectionCard.StackThree.Score))
             {
                 lbl_Description.Text = "Invalid";
                 lbl_Stack1.Text = string.Empty;
@@ -83,26 +87,26 @@ namespace DemoChinesePoker
             else
             {
                 lbl_Description.Text = string.Empty;
-                lbl_Stack1.Text = collectionCard.Stack1.ToString();
-                lbl_Stack2.Text = collectionCard.Stack2.ToString();
-                lbl_Stack3.Text = collectionCard.Stack3.ToString();
+                lbl_Stack1.Text = collectionCard.StackThree.ToString();
+                lbl_Stack2.Text = collectionCard.StackTwo.ToString();
+                lbl_Stack3.Text = collectionCard.StackFirst.ToString();
             }
 
-            btn_User1_One1.Text = collectionCard.Stack1.TotalCard[0].ToString();
-            btn_User1_One2.Text = collectionCard.Stack1.TotalCard[1].ToString();
-            btn_User1_One3.Text = collectionCard.Stack1.TotalCard[2].ToString();
-            btn_User1_One4.Text = collectionCard.Stack1.TotalCard[3].ToString();
-            btn_User1_One5.Text = collectionCard.Stack1.TotalCard[4].ToString();
+            btn_User1_One1.Text = collectionCard.StackThree.TotalCard[0].ToString();
+            btn_User1_One2.Text = collectionCard.StackThree.TotalCard[1].ToString();
+            btn_User1_One3.Text = collectionCard.StackThree.TotalCard[2].ToString();
+            btn_User1_One4.Text = collectionCard.StackThree.TotalCard[3].ToString();
+            btn_User1_One5.Text = collectionCard.StackThree.TotalCard[4].ToString();
 
-            btn_User1_Two1.Text = collectionCard.Stack2.TotalCard[0].ToString();
-            btn_User1_Two2.Text = collectionCard.Stack2.TotalCard[1].ToString();
-            btn_User1_Two3.Text = collectionCard.Stack2.TotalCard[2].ToString();
-            btn_User1_Two4.Text = collectionCard.Stack2.TotalCard[3].ToString();
-            btn_User1_Two5.Text = collectionCard.Stack2.TotalCard[4].ToString();
+            btn_User1_Two1.Text = collectionCard.StackTwo.TotalCard[0].ToString();
+            btn_User1_Two2.Text = collectionCard.StackTwo.TotalCard[1].ToString();
+            btn_User1_Two3.Text = collectionCard.StackTwo.TotalCard[2].ToString();
+            btn_User1_Two4.Text = collectionCard.StackTwo.TotalCard[3].ToString();
+            btn_User1_Two5.Text = collectionCard.StackTwo.TotalCard[4].ToString();
 
-            btn_User1_Three1.Text = collectionCard.Stack3.TotalCard[0].ToString();
-            btn_User1_Three2.Text = collectionCard.Stack3.TotalCard[1].ToString();
-            btn_User1_Three3.Text = collectionCard.Stack3.TotalCard[2].ToString();
+            btn_User1_Three1.Text = collectionCard.StackFirst.TotalCard[0].ToString();
+            btn_User1_Three2.Text = collectionCard.StackFirst.TotalCard[1].ToString();
+            btn_User1_Three3.Text = collectionCard.StackFirst.TotalCard[2].ToString();
         }
     }
 }

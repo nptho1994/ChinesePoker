@@ -1,5 +1,4 @@
 ﻿using pk_Application.Common;
-using System.Collections.Generic;
 
 namespace pk_Application.Model;
 
@@ -18,7 +17,35 @@ public class UserCard
 
     public UserCard(List<CardUnit> initCard)
     {
+        InitData(initCard);
+        MappingPoker();
+    }
+
+    private void MappingPoker()
+    {
+        var countStraight = 0;
+        for (var i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
+        {
+            int numberOfCard = CountCardNumber(i);
+            MappingCard(i, numberOfCard);
+            countStraight = CountAndReset(countStraight, numberOfCard);
+
+            if (countStraight >= 5)
+            {
+                MappingStraight(countStraight, i);
+            }
+        }
+    }
+
+    private void InitData(List<CardUnit> initCard)
+    {
         TotalUserCard = initCard;
+        OneCard = new List<CardUnit>();
+        CoupleCard = new List<CardUnit>();
+        ThreeCard = new List<CardUnit>();
+        FourCard = new List<CardUnit>();
+        Straight = new List<CardUnit>();
+
         var emptyCardType = new CardUnit?[13];
         var type1 = emptyCardType.ToList();
         var type2 = emptyCardType.ToList();
@@ -49,152 +76,157 @@ public class UserCard
         Clover = new TypeCard(type2);
         Diamonds = new TypeCard(type3);
         Hearts = new TypeCard(type4);
+    }
 
-        OneCard = new List<CardUnit>();
-        CoupleCard = new List<CardUnit>();
-        ThreeCard = new List<CardUnit>();
-        FourCard = new List<CardUnit>();
-        Straight = new List<CardUnit>();
-        var countStraight = 0;
-        for (var i = 0; i < Constant.Setting.MaxNumberOfCardsOfUser; i++)
+    private int CountCardNumber(int i)
+    {
+        var numberOfCard = 0;
+        numberOfCard += Spade.Collection[i] != null ? 1 : 0;
+        numberOfCard += Clover.Collection[i] != null ? 1 : 0;
+        numberOfCard += Diamonds.Collection[i] != null ? 1 : 0;
+        numberOfCard += Hearts.Collection[i] != null ? 1 : 0;
+        return numberOfCard;
+    }
+
+    private static int CountAndReset(int countStraight, int numberOfCard)
+    {
+        if (numberOfCard == 0)
         {
-            var numberOfCard = 0;
-            numberOfCard += Spade.Collection[i] != null ? 1 : 0;
-            numberOfCard += Clover.Collection[i] != null ? 1 : 0;
-            numberOfCard += Diamonds.Collection[i] != null ? 1 : 0;
-            numberOfCard += Hearts.Collection[i] != null ? 1 : 0;
-            if (numberOfCard == 1)
+            countStraight = 0;
+        }
+        else
+        {
+            countStraight++;
+        }
+
+        return countStraight;
+    }
+
+    private void MappingStraight(int countStraight, int i)
+    {
+        if (countStraight == 5)
+        {
+            for (var j = 4; j >= 0; j--)
             {
-                if (Spade.Collection[i] != null)
+                var card = Spade.Collection[i - j];
+                if (card == null)
                 {
-                    OneCard.Add(Spade.Collection[i]);
+                    card = Clover.Collection[i - j];
                 }
-                if (Clover.Collection[i] != null)
-                {
-                    OneCard.Add(Clover.Collection[i]);
-                }
-                if (Diamonds.Collection[i] != null)
-                {
-                    OneCard.Add(Diamonds.Collection[i]);
-                }
-                if (Hearts.Collection[i] != null)
-                {
-                    OneCard.Add(Hearts.Collection[i]);
-                }
-            }
-            else if (numberOfCard == 2)
-            {
-                if (Spade.Collection[i] != null)
-                {
-                    CoupleCard.Add(Spade.Collection[i]);
-                }
-                if (Clover.Collection[i] != null)
-                {
-                    CoupleCard.Add(Clover.Collection[i]);
-                }
-                if (Diamonds.Collection[i] != null)
-                {
-                    CoupleCard.Add(Diamonds.Collection[i]);
-                }
-                if (Hearts.Collection[i] != null)
-                {
-                    CoupleCard.Add(Hearts.Collection[i]);
-                }
-            } 
-            else if (numberOfCard == 3)
-            {
-                if (Spade.Collection[i] != null)
-                {
-                    ThreeCard.Add(Spade.Collection[i]);
-                }
-                if (Clover.Collection[i] != null)
-                {
-                    ThreeCard.Add(Clover.Collection[i]);
-                }
-                if (Diamonds.Collection[i] != null)
-                {
-                    ThreeCard.Add(Diamonds.Collection[i]);
-                }
-                if (Hearts.Collection[i] != null)
-                {
-                    ThreeCard.Add(Hearts.Collection[i]);
-                }
-            }
-            else if (numberOfCard == 4)
-            {
-                if (Spade.Collection[i] != null)
-                {
-                    FourCard.Add(Spade.Collection[i]);
-                }
-                if (Clover.Collection[i] != null)
-                {
-                    FourCard.Add(Clover.Collection[i]);
-                }
-                if (Diamonds.Collection[i] != null)
-                {
-                    FourCard.Add(Diamonds.Collection[i]);
-                }
-                if (Hearts.Collection[i] != null)
-                {
-                    FourCard.Add(Hearts.Collection[i]);
-                }
-            }
 
-            if (numberOfCard == 0)
-            {
-                countStraight = 0;
-            } 
-            else
-            {
-                countStraight++;
-            }
-
-            if (countStraight >= 5)
-            {
-                if (countStraight == 5)
+                if (card == null)
                 {
-                    for (var j = 4; j >= 0; j--)
-                    { 
-                        var card = Spade.Collection[i - j];
-                        if (card == null)
-                        {
-                            card = Clover.Collection[i - j];
-                        }
-
-                        if (card == null)
-                        {
-                            card = Diamonds.Collection[i - j];
-                        }
-
-                        if (card == null)
-                        {
-                            card = Hearts.Collection[i - j];
-                        }
-
-                        Straight.Add(card);
-                    }
-                } 
-                else
-                {
-                    var card = Spade.Collection[i];
-                    if (card == null)
-                    {
-                        card = Clover.Collection[i];
-                    }
-
-                    if (card == null)
-                    {
-                        card = Diamonds.Collection[i];
-                    }
-
-                    if (card == null)
-                    {
-                        card = Hearts.Collection[i];
-                    }
-
-                    Straight.Add(card);
+                    card = Diamonds.Collection[i - j];
                 }
+
+                if (card == null)
+                {
+                    card = Hearts.Collection[i - j];
+                }
+
+                Straight.Add(card);
             }
         }
-    }   
+        else
+        {
+            var card = Spade.Collection[i];
+
+            if (card == null)
+            {
+                card = Clover.Collection[i];
+            }
+
+            if (card == null)
+            {
+                card = Diamonds.Collection[i];
+            }
+
+            if (card == null)
+            {
+                card = Hearts.Collection[i];
+            }
+
+            Straight.Add(card);
+        }
+    }
+
+    private void MappingCard(int i, int numberOfCard)
+    {
+        if (numberOfCard == 1)
+        {
+            if (Spade.Collection[i] != null)
+            {
+                OneCard.Add(Spade.Collection[i]);
+            }
+            if (Clover.Collection[i] != null)
+            {
+                OneCard.Add(Clover.Collection[i]);
+            }
+            if (Diamonds.Collection[i] != null)
+            {
+                OneCard.Add(Diamonds.Collection[i]);
+            }
+            if (Hearts.Collection[i] != null)
+            {
+                OneCard.Add(Hearts.Collection[i]);
+            }
+        }
+        else if (numberOfCard == 2)
+        {
+            if (Spade.Collection[i] != null)
+            {
+                CoupleCard.Add(Spade.Collection[i]);
+            }
+            if (Clover.Collection[i] != null)
+            {
+                CoupleCard.Add(Clover.Collection[i]);
+            }
+            if (Diamonds.Collection[i] != null)
+            {
+                CoupleCard.Add(Diamonds.Collection[i]);
+            }
+            if (Hearts.Collection[i] != null)
+            {
+                CoupleCard.Add(Hearts.Collection[i]);
+            }
+        }
+        else if (numberOfCard == 3)
+        {
+            if (Spade.Collection[i] != null)
+            {
+                ThreeCard.Add(Spade.Collection[i]);
+            }
+            if (Clover.Collection[i] != null)
+            {
+                ThreeCard.Add(Clover.Collection[i]);
+            }
+            if (Diamonds.Collection[i] != null)
+            {
+                ThreeCard.Add(Diamonds.Collection[i]);
+            }
+            if (Hearts.Collection[i] != null)
+            {
+                ThreeCard.Add(Hearts.Collection[i]);
+            }
+        }
+        else if (numberOfCard == 4)
+        {
+            if (Spade.Collection[i] != null)
+            {
+                FourCard.Add(Spade.Collection[i]);
+            }
+            if (Clover.Collection[i] != null)
+            {
+                FourCard.Add(Clover.Collection[i]);
+            }
+            if (Diamonds.Collection[i] != null)
+            {
+                FourCard.Add(Diamonds.Collection[i]);
+            }
+            if (Hearts.Collection[i] != null)
+            {
+                FourCard.Add(Hearts.Collection[i]);
+            }
+        }
+    }
 }

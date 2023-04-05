@@ -36,15 +36,15 @@ public static class Mapping
 
             if (i < Constant.Setting.MaxNumberOfStack1)
             {
-                result.Stack1.Add(card);
+                result.StackThree.Add(card);
             }
             else if (i < Constant.Setting.MaxNumberOfStack1 + Constant.Setting.MaxNumberOfStack2)
             {
-                result.Stack2.Add(card);
+                result.StackTwo.Add(card);
             }
             else
             {
-                result.Stack3.Add(card);
+                result.StackFirst.Add(card);
             }
         }
 
