@@ -7,9 +7,15 @@ public class StackThree
     public List<CardUnit> TotalCard { get; set; }
     public TypeEnum Type { get; set; }
     public double Score { get; set; }
+    public string PokerDisplay { get; set; }
     public override string ToString()
     {
-        var result = Type.ToString();
+        var result = string.Empty;
+        foreach (var item in TotalCard)
+        {
+            result += item.ToString() + "  ";
+        }
+
         return result;
     }
 
