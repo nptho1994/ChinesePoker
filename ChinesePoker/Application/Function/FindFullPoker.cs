@@ -430,7 +430,7 @@ public static class FindFullPoker
         }
 
         // Find stack 2
-        if (numberOfSpade > 0)
+        if (numberOfSpade > 5)
         {
             var newSpadeCollection = userCard.Spade.Collection;
             for (var i = 0; i < 5; i++)
@@ -442,7 +442,7 @@ public static class FindFullPoker
             userCard.Spade = new TypeCard(newSpadeCollection);
             numberOfSpade = userCard.Spade.TotalCardNumber;
         }
-        else if (numberOfClover > 0)
+        else if (numberOfClover > 5)
         {
             var newCloverCollection = userCard.Clover.Collection;
             for (var i = 0; i < 5; i++)
@@ -454,7 +454,7 @@ public static class FindFullPoker
             userCard.Clover = new TypeCard(newCloverCollection);
             numberOfClover = userCard.Clover.TotalCardNumber;
         }
-        else if (numberOfDiamonds > 0)
+        else if (numberOfDiamonds > 5)
         {
             var newDiamondsCollection = userCard.Diamonds.Collection;
             for (var i = 0; i < 5; i++)
@@ -466,7 +466,7 @@ public static class FindFullPoker
             userCard.Diamonds = new TypeCard(newDiamondsCollection);
             numberOfDiamonds = userCard.Diamonds.TotalCardNumber;
         }
-        else if (numberOfHearts > 0)
+        else if (numberOfHearts > 5)
         {
             var newHeartsCollection = userCard.Hearts.Collection;
             for (var i = 0; i < 5; i++)
