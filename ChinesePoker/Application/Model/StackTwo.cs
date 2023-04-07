@@ -1,13 +1,33 @@
-﻿using static System.Formats.Asn1.AsnWriter;
+﻿namespace pk_Application.Model;
 
-namespace pk_Application.Model;
-
-public class StackFive
+public class StackTwo
 {
     public List<CardUnit> TotalCard { get; set; }
     public TypeEnum Type { get; set; }
     public double Score { get; set; }
-    public string PokerDisplay { get; set; }
+
+    public int GetNumberWinBetStactThree()
+    {
+        switch (Type)
+        {
+            case TypeEnum.MaximumCard:
+            case TypeEnum.CoupleCard:
+            case TypeEnum.TwoCoupleCard:
+            case TypeEnum.ThreeCard:
+            case TypeEnum.Straight:
+            case TypeEnum.Flush:
+                return 1;
+            case TypeEnum.Boat:
+                return 2;
+            case TypeEnum.Quad:
+                return 4;
+            case TypeEnum.StraightFlush:
+                return 8;
+            default:
+                return 1;
+        }
+    }
+
     public override string ToString()
     {
         var result = string.Empty;
@@ -19,7 +39,7 @@ public class StackFive
         return result;
     }
 
-    public StackFive(List<CardUnit> init)
+    public StackTwo(List<CardUnit> init)
     {
         TotalCard = init.OrderBy(x => x.CardNumber).ToList();
         var dividation = new UserCard(TotalCard);

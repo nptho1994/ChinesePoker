@@ -5,16 +5,16 @@ namespace pk_Application.Model;
 
 public class CollectionCard
 {
-    public StackFive StackThree { get; set; }
-    public StackFive StackTwo { get; set; }
-    public StackThree StackFirst { get; set; }
+    public StackThree StackThree { get; set; }
+    public StackTwo StackTwo { get; set; }
+    public StackOne StackFirst { get; set; }
     public List<CardUnit> CardsSorted { get; set; } = new List<CardUnit>();
 
     public CollectionCard(TreeCard treeCard)
     {
-        StackThree = new StackFive(treeCard.StackThree);
-        StackTwo = new StackFive(treeCard.StackTwo);
-        StackFirst = new StackThree(treeCard.StackFirst);
+        StackThree = new StackThree(treeCard.StackThree);
+        StackTwo = new StackTwo(treeCard.StackTwo);
+        StackFirst = new StackOne(treeCard.StackFirst);
 
         CardsSorted.AddRange(StackThree.TotalCard);
         CardsSorted.AddRange(StackTwo.TotalCard);

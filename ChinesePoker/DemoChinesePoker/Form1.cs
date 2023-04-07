@@ -96,9 +96,10 @@ namespace DemoChinesePoker
                 || (collectionCard.StackTwo.Type == collectionCard.StackThree.Type
                 && collectionCard.StackTwo.Score > collectionCard.StackThree.Score))
             {
-                var swapStack = new StackFive(collectionCard.StackTwo.TotalCard);
-                collectionCard.StackTwo = collectionCard.StackThree;
-                collectionCard.StackThree = swapStack;
+                var swapStackThree = new StackThree(collectionCard.StackTwo.TotalCard);
+                var swapStackTwo = new StackTwo(collectionCard.StackThree.TotalCard);
+                collectionCard.StackTwo = swapStackTwo;
+                collectionCard.StackThree = swapStackThree;
                 collectionCard.SortCard();
             }
 
@@ -140,64 +141,6 @@ namespace DemoChinesePoker
             btn_User_One1.Text = init[10].ToString();
             btn_User_One2.Text = init[11].ToString();
             btn_User_One3.Text = init[12].ToString();
-        }
-
-        private void btn_GenerateNewPokerAndSort_Click(object sender, EventArgs e)
-        {
-            CreateNewPoker();
-            var getNewCollection = CollectionAndSort();
-            MappingCard(getNewCollection.CardsSorted);
-        }
-
-        private void btn_DistributeTheCards_Click_1(object sender, EventArgs e)
-        {
-            CreateNewPoker();
-            MappingCard(_initCardUser1);
-        }
-
-        private void btn_ArrangeTheCards_Click_1(object sender, EventArgs e)
-        {
-            CollectionCard collectionCard = CollectionAndSort();
-
-            _collectionCardForUser1 = collectionCard;
-
-            MappingCard(_collectionCardForUser1.CardsSorted);
-        }
-
-        private void btn_Test_Click(object sender, EventArgs e)
-        {
-            CreateNewPoker();
-            MappingCard(_initCardUser1);
-            var tempCard2 = _initCardUser2.ToList();
-            var cardOfUser2 = new UserCard(tempCard2);
-            _cardOfUser2 = FindFullPoker.FindBestFullPoker(cardOfUser2);
-            var collectionCard2 = new CollectionCard(_cardOfUser2);
-
-            var tempCard3 = _initCardUser3.ToList();
-            var cardOfUser3 = new UserCard(tempCard3);
-            _cardOfUser3 = FindFullPoker.FindBestFullPoker(cardOfUser3);
-            var collectionCard3 = new CollectionCard(_cardOfUser3);
-
-            var tempCard4 = _initCardUser4.ToList();
-            var cardOfUser4 = new UserCard(tempCard4);
-            _cardOfUser4 = FindFullPoker.FindBestFullPoker(cardOfUser4);
-            var collectionCard4 = new CollectionCard(_cardOfUser4);
-
-            rtb_User2.Text = string.Empty;
-            rtb_User3.Text = string.Empty;
-            rtb_User4.Text = string.Empty;
-
-            rtb_User2.Text += collectionCard2.StackFirst.ToString();
-            rtb_User3.Text += collectionCard3.StackFirst.ToString();
-            rtb_User4.Text += collectionCard4.StackFirst.ToString();
-
-            rtb_User2.Text += "\n" + collectionCard2.StackTwo.ToString();
-            rtb_User3.Text += "\n" + collectionCard3.StackTwo.ToString();
-            rtb_User4.Text += "\n" + collectionCard4.StackTwo.ToString();
-
-            rtb_User2.Text += "\n" + collectionCard2.StackThree.ToString();
-            rtb_User3.Text += "\n" + collectionCard3.StackThree.ToString();
-            rtb_User4.Text += "\n" + collectionCard4.StackThree.ToString();
         }
 
         private void rtb_1k_CheckedChanged(object sender, EventArgs e)
@@ -552,6 +495,72 @@ namespace DemoChinesePoker
                 ButtonNameSelected = string.Empty;
                 ValueSelected = string.Empty;
             }
+        }
+
+        private void btn_DistributeTheCards_Click(object sender, EventArgs e)
+        {
+            CreateNewPoker();
+            MappingCard(_initCardUser1);
+        }
+
+        private void btn_ArrangeTheCards_Click(object sender, EventArgs e)
+        {
+            CollectionCard collectionCard = CollectionAndSort();
+
+            _collectionCardForUser1 = collectionCard;
+
+            MappingCard(_collectionCardForUser1.CardsSorted);
+        }
+
+        private void btn_GenerateNewPokerAndSort_Click(object sender, EventArgs e)
+        {
+            CreateNewPoker();
+            var getNewCollection = CollectionAndSort();
+            MappingCard(getNewCollection.CardsSorted);
+        }
+
+        private async void btn_Test_Click(object sender, EventArgs e)
+        {
+            CreateNewPoker();
+            MappingCard(_initCardUser1);
+            var tempCard2 = _initCardUser2.ToList();
+            var cardOfUser2 = new UserCard(tempCard2);
+            _cardOfUser2 = FindFullPoker.FindBestFullPoker(cardOfUser2);
+            _collectionCardForUser2 = new CollectionCard(_cardOfUser2);
+
+            var tempCard3 = _initCardUser3.ToList();
+            var cardOfUser3 = new UserCard(tempCard3);
+            _cardOfUser3 = FindFullPoker.FindBestFullPoker(cardOfUser3);
+            _collectionCardForUser3 = new CollectionCard(_cardOfUser3);
+
+            var tempCard4 = _initCardUser4.ToList();
+            var cardOfUser4 = new UserCard(tempCard4);
+            _cardOfUser4 = FindFullPoker.FindBestFullPoker(cardOfUser4);
+            _collectionCardForUser4 = new CollectionCard(_cardOfUser4);
+
+            rtb_User2.Text = string.Empty;
+            rtb_User3.Text = string.Empty;
+            rtb_User4.Text = string.Empty;
+
+            rtb_User2.Text += _collectionCardForUser2.StackFirst.ToString();
+            rtb_User3.Text += _collectionCardForUser3.StackFirst.ToString();
+            rtb_User4.Text += _collectionCardForUser4.StackFirst.ToString();
+
+            rtb_User2.Text += "\n" + _collectionCardForUser2.StackTwo.ToString();
+            rtb_User3.Text += "\n" + _collectionCardForUser3.StackTwo.ToString();
+            rtb_User4.Text += "\n" + _collectionCardForUser4.StackTwo.ToString();
+
+            rtb_User2.Text += "\n" + _collectionCardForUser2.StackThree.ToString();
+            rtb_User3.Text += "\n" + _collectionCardForUser3.StackThree.ToString();
+            rtb_User4.Text += "\n" + _collectionCardForUser4.StackThree.ToString();
+
+            var makeScore = new MakeScore(_collectionCardForUser1, _collectionCardForUser2, _collectionCardForUser3, _collectionCardForUser4);
+            lbl_Description.Text = "Win " + makeScore.ScoreOfUser1 + "bet";
+        }
+
+        private void btn_User_One1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

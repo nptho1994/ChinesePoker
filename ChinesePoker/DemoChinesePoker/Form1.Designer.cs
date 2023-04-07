@@ -222,7 +222,7 @@
             btn_DistributeTheCards.TabIndex = 12;
             btn_DistributeTheCards.Text = "Chia bài";
             btn_DistributeTheCards.UseVisualStyleBackColor = true;
-            btn_DistributeTheCards.Click += btn_DistributeTheCards_Click_1;
+            btn_DistributeTheCards.Click += btn_DistributeTheCards_Click;
             // 
             // btn_ArrangeTheCards
             // 
@@ -232,7 +232,7 @@
             btn_ArrangeTheCards.TabIndex = 13;
             btn_ArrangeTheCards.Text = "Sắp bài";
             btn_ArrangeTheCards.UseVisualStyleBackColor = true;
-            btn_ArrangeTheCards.Click += btn_ArrangeTheCards_Click_1;
+            btn_ArrangeTheCards.Click += btn_ArrangeTheCards_Click;
             // 
             // rtb_User1
             // 
