@@ -521,6 +521,23 @@ namespace DemoChinesePoker
 
         private async void btn_Test_Click(object sender, EventArgs e)
         {
+            rtb_User1.Text = string.Empty;
+            rtb_User2.Text = string.Empty;
+            rtb_User3.Text = string.Empty;
+            var initPoker = new InitDeskCard();
+            var initCard = initPoker.PokerInitiation();
+            var swapCard = initPoker.RandomSwap(initCard);
+            var test = initPoker.GetCardForUser(0, swapCard);
+            foreach (var item in test)
+            {
+                rtb_User1.Text += item.Uuid;
+                rtb_User2.Text += item.Name;
+                rtb_User3.Text += item.IndexOfDesk;
+            }
+        }
+
+        private void TestGame()
+        {
             CreateNewPoker();
             MappingCard(_initCardUser1);
             var tempCard2 = _initCardUser2.ToList();
@@ -556,11 +573,6 @@ namespace DemoChinesePoker
 
             var makeScore = new MakeScore(_collectionCardForUser1, _collectionCardForUser2, _collectionCardForUser3, _collectionCardForUser4);
             lbl_Description.Text = "Win " + makeScore.ScoreOfUser1 + "bet";
-        }
-
-        private void btn_User_One1_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }
