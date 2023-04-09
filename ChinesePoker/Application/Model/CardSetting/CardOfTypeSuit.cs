@@ -1,6 +1,6 @@
 ﻿using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model.Card;
+namespace pk_Application.Model.CardSetting;
 
 public class CardOfTypeSuit
 {

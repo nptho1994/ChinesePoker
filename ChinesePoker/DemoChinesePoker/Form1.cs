@@ -1,7 +1,8 @@
 using pk_Application.Common;
 using pk_Application.Function;
 using pk_Application.Model;
-using pk_Application.Model.Card;
+using pk_Application.Model.CardSetting;
+using pk_Application.Model.Type;
 using System.Windows.Forms;
 
 namespace DemoChinesePoker
@@ -537,31 +538,20 @@ namespace DemoChinesePoker
             //}
 
             lbl_Description.Text = string.Empty;
-            List<Card> testMaximumCardStackOn = new List<Card>();
-            var count = 0;
-            for (var i1 = 2; i1 < 15; i1++)
+            var maxFiveCard = new MaxFiveCard();
+
+            lbl_Description.Text += "Max: " + maxFiveCard.Maximum.ToString() + "\n";
+            lbl_Description.Text += "Min: " + maxFiveCard.Minimum.ToString() + "\n";
+            int.TryParse(rtb_User1.Text, out var score);
+            var test = maxFiveCard.GetCardsByScore(score);
+            rtb_User2.Text = string.Empty;
+            if (test != null && test.Any())
             {
-                for (var i2 = i1 + 1; i2 < 15; i2++)
+                foreach (var item in test)
                 {
-                    for (var i3 = i2 + 1; i3 < 15; i3++)
-                    {
-                        for (var i4 = i3 + 1; i4 < 15; i4++)
-                        {
-                            for (var i5 = i4 + 1; i5 < 15; i5++)
-                            {
-                                if (i2 - i1 > 1 || i3 - i2 > 1 || i4 - i3 > 1 || i5 - i4 > 1)
-                                {
-                                    //testMaximumCardStackOn.Any(new Card ())
-                                    count++;
-
-                                }
-                            }
-                        }
-
-                    }
+                    rtb_User2.Text += item.Name + "\t";
                 }
-            }
-            lbl_Description.Text = count.ToString();
+            }    
         }
 
         private void TestGame()

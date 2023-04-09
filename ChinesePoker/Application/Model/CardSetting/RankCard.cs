@@ -1,6 +1,6 @@
 ﻿using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model.Card;
+namespace pk_Application.Model.CardSetting;
 
 public class RankCard
 {
@@ -17,29 +17,33 @@ public class RankCard
     {
         for (int i = 0; i < Setting.MaxNumberOfCardsOfUser; i++)
         {
-            var rankCards = new List<Card?>();
+            var rankCards = new List<Card>();
 
-            if (spades.Cards[i] != null)
+            var spade = spades.Cards[i];
+            var club = clubs.Cards[i];
+            var diamond = diamonds.Cards[i];
+            var heart = hearts.Cards[i];
+            if (spade != null)
             {
-                rankCards.Add(spades.Cards[i]);
+                rankCards.Add(spade);
             }
 
-            if (clubs.Cards[i] != null)
+            if (club != null)
             {
-                rankCards.Add(clubs.Cards[i]);
+                rankCards.Add(club);
             }
 
-            if (diamonds.Cards[i] != null)
+            if (diamond != null)
             {
-                rankCards.Add(diamonds.Cards[i]);
+                rankCards.Add(diamond);
             }
 
-            if (hearts.Cards[i] != null)
+            if (heart != null)
             {
-                rankCards.Add(hearts.Cards[i]);
+                rankCards.Add(heart);
             }
 
-            if (rankCards.Any() == false)
+            if (rankCards == null || rankCards.Any() == false)
             {
                 RankCards.Add(null);
                 continue;

@@ -1,4 +1,4 @@
-﻿namespace pk_Application.Model.Card;
+﻿namespace pk_Application.Model.CardSetting;
 
 public class Card
 {

@@ -1,4 +1,4 @@
-﻿using pk_Application.Model.Card;
+﻿using pk_Application.Model.CardSetting;
 
 namespace pk_Application.Common;
 
