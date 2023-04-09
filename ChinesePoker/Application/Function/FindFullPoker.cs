@@ -12,7 +12,7 @@ public static class FindFullPoker
     {
         var result = new TreeCard();
 
-        // 1 FindDragonHallFlush
+        // 1 Find DragonHallFlush
         var dragonHallFlush = FindDragonHallFlush(userCard);
         if (dragonHallFlush != null)
         {

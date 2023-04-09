@@ -1,6 +1,6 @@
 ﻿using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
 public class RankCard
 {
@@ -13,7 +13,7 @@ public class RankCard
     /// <param name="clubs"></param>
     /// <param name="diamonds"></param>
     /// <param name="hearts"></param>
-    public RankCard(TypeSuitCard spades, TypeSuitCard clubs, TypeSuitCard diamonds, TypeSuitCard hearts)
+    public RankCard(CardOfTypeSuit spades, CardOfTypeSuit clubs, CardOfTypeSuit diamonds, CardOfTypeSuit hearts)
     {
         for (int i = 0; i < Setting.MaxNumberOfCardsOfUser; i++)
         {

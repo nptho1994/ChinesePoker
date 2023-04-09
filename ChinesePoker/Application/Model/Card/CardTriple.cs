@@ -1,8 +1,8 @@
 ﻿using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
-public class TripleCard
+public class CardTriple
 {
 
     public List<List<Card>?> RankCards { get; set; } = new List<List<Card>?>();
@@ -16,7 +16,7 @@ public class TripleCard
     /// <param name="clubs"></param>
     /// <param name="diamonds"></param>
     /// <param name="hearts"></param>
-    public TripleCard(RankCard rankCards)
+    public CardTriple(RankCard rankCards)
     {
         for (int i = 0; i < Setting.MaxNumberOfCardsOfUser; i++)
         {

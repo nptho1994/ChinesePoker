@@ -1,9 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
-public class OneCard
+public class CardSingle
 {
     public List<Card?> RankCards { get; set; } = new List<Card?>();
     public List<Card> RealCards { get; set; } = new List<Card>();
@@ -16,7 +16,7 @@ public class OneCard
     /// <param name="clubs"></param>
     /// <param name="diamonds"></param>
     /// <param name="hearts"></param>
-    public OneCard(RankCard rankCards)
+    public CardSingle(RankCard rankCards)
     {
         for (int i = 0; i < Setting.MaxNumberOfCardsOfUser; i++)
         {

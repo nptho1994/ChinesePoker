@@ -1,4 +1,5 @@
-﻿using pk_Application.Model;
+﻿using pk_Application.Model.Card;
+
 namespace pk_Application.Common;
 
 public class InitDeskCard

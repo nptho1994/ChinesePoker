@@ -1,14 +1,14 @@
 ﻿using static pk_Application.Common.Constant;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
-public class TypeSuitCard
+public class CardOfTypeSuit
 {
     public List<Card?> Cards { get; set; } = new List<Card?>();
     public double PointOf { get; set; }
     public List<Card> RealCard { get; set; } = new List<Card>();
 
-    public TypeSuitCard(List<Card> handCards, string suitName)
+    public CardOfTypeSuit(List<Card> handCards, string suitName)
     {
         for (int i = 0; i < Setting.MaxNumberOfCardsOfUser; i++)
         {

@@ -1,23 +1,22 @@
 ﻿using static pk_Application.Common.Constant;
 using static pk_Application.Common.Constant.Config;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
 public class CardOnHand
 {
     public List<Card> Cards { get; set; } = new List<Card>();
     public string Uuid { get; set; } = string.Empty;
     public string BestResult { get; set; } = string.Empty;
-    public TypeSuitCard Spades { get; set; }
-    public TypeSuitCard Clubs{ get; set; }
-    public TypeSuitCard Diamonds { get; set; }
-    public TypeSuitCard Hearts { get; set; }
+    public CardOfTypeSuit Spades { get; set; }
+    public CardOfTypeSuit Clubs { get; set; }
+    public CardOfTypeSuit Diamonds { get; set; }
+    public CardOfTypeSuit Hearts { get; set; }
     public RankCard RankCards { get; set; }
-    public OneCard OneCard { get; set; }
-    public DoubleCard DoubleCard { get; set; }
-    public TripleCard TripleCard { get; set; }
-    public QuadrupleCard QuadrupleCard { get; set; }
-
+    public CardSingle OneCard { get; set; }
+    public CardDouble DoubleCard { get; set; }
+    public CardTriple TripleCard { get; set; }
+    public CardQuadruple QuadrupleCard { get; set; }
 
     /// <summary>
     /// Gemerate card on hand with string input 
@@ -33,15 +32,42 @@ public class CardOnHand
         }
 
         Cards = GenerateCards(handCard);
-        Spades = new TypeSuitCard(Cards, Suit.NameSpades);
-        Clubs = new TypeSuitCard(Cards, Suit.NameClubs);
-        Diamonds = new TypeSuitCard(Cards, Suit.NameDiamonds);
-        Hearts = new TypeSuitCard(Cards, Suit.NameHearts);
+        Spades = new CardOfTypeSuit(Cards, Suit.NameSpades);
+        Clubs = new CardOfTypeSuit(Cards, Suit.NameClubs);
+        Diamonds = new CardOfTypeSuit(Cards, Suit.NameDiamonds);
+        Hearts = new CardOfTypeSuit(Cards, Suit.NameHearts);
         RankCards = new RankCard(Spades, Clubs, Diamonds, Hearts);
-        OneCard = new OneCard(RankCards);
-        DoubleCard = new DoubleCard(RankCards);
-        TripleCard = new TripleCard(RankCards);
-        QuadrupleCard = new QuadrupleCard(RankCards);
+        OneCard = new CardSingle(RankCards);
+        DoubleCard = new CardDouble(RankCards);
+        TripleCard = new CardTriple(RankCards);
+        QuadrupleCard = new CardQuadruple(RankCards);
+        Uuid = GenerateUuid();
+    }
+
+    /// <summary>
+    /// Gemerate card on hand with list card
+    /// Example: JHKD8H1S2C2H5D5H7H1D9C9H4D3H
+    /// </summary>
+    /// <param name="handCard"></param>
+    /// <exception cref="Exception"></exception>
+    public CardOnHand(List<Card> handCard)
+    {
+        if (handCard == null || handCard.Count != 13)
+        {
+            var numberOfCard = handCard == null ? 0 : handCard.Count;
+            throw new Exception($"Can not generate hand card from list card with {numberOfCard} cards");
+        }
+
+        Cards = handCard.OrderBy(x => x.Rank.Index).ThenBy(x => x.Suit.Index).ToList();
+        Spades = new CardOfTypeSuit(Cards, Suit.NameSpades);
+        Clubs = new CardOfTypeSuit(Cards, Suit.NameClubs);
+        Diamonds = new CardOfTypeSuit(Cards, Suit.NameDiamonds);
+        Hearts = new CardOfTypeSuit(Cards, Suit.NameHearts);
+        RankCards = new RankCard(Spades, Clubs, Diamonds, Hearts);
+        OneCard = new CardSingle(RankCards);
+        DoubleCard = new CardDouble(RankCards);
+        TripleCard = new CardTriple(RankCards);
+        QuadrupleCard = new CardQuadruple(RankCards);
         Uuid = GenerateUuid();
     }
 
@@ -81,7 +107,7 @@ public class CardOnHand
                 double index = 0;
                 foreach (var card in rankCard)
                 {
-                    index += Math.Pow(2, card.Suit.Index); 
+                    index += Math.Pow(2, card.Suit.Index);
                 }
                 result += CardOfHand.ValidUuidCharacter[(int)index];
             }
@@ -99,7 +125,7 @@ public class CardOnHand
     /// <exception cref="Exception"></exception>
     private Card GenerateCard(char suitShortName, char rankName)
     {
-        if (CardOfHand.ValidRankName.Contains(suitShortName) == false 
+        if (CardOfHand.ValidRankName.Contains(suitShortName) == false
             || CardOfHand.ValidSuitShorName.Contains(rankName) == false)
         {
             throw new Exception($"Can not generate card with rank name {suitShortName} and suit short name {rankName}");

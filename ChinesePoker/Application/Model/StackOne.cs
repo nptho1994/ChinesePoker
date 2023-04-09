@@ -1,6 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
-
-namespace pk_Application.Model;
+﻿namespace pk_Application.Model;
 
 public class StackOne
 {

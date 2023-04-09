@@ -24,6 +24,39 @@ public static class Constant
             public const int MaxNumberOfStraight = 9; // 13 * 13
             public const int MaxNumberOfFlush = 1287; // 13 * 13
         }
+
+        public static class TopFiveTypeSetting
+        {
+            public const int MaxCard = 1; 
+            public const int OneDoubleCard = 2; 
+            public const int TwoDoubleCard = 3; 
+            public const int TripleCard = 4; 
+            public const int Straight = 5; 
+            public const int Flush = 6;
+            public const int Boat = 7;
+            public const int Quadruple = 8;
+            public const int RoyalFlush = 9;
+
+            public const string NameOfMaxCard = "MaxCard";
+            public const string NameOfOneDoubleCard = "OneDoubleCard";
+            public const string NameOfTwoDoubleCard = "TwoDoubleCard";
+            public const string NameOfTripleCard = "TripleCard";
+            public const string NameOfStraight = "Straight";
+            public const string NameOfFlush = "Flush";
+            public const string NameOfBoat = "Boat";
+            public const string NameOfQuadruple = "Quadruple";
+            public const string NameOfRoyalFlush = "RoyalFlush";
+
+            public const int NumberOfCaseMaxCard = 784; // 5C13
+            public const int NumberOfCaseOneDoubleCard = 13 * 286; // 13 * 3C13
+            public const int NumberOfCaseTwoDoubleCard = 2197; // 13 * 13 * 13
+            public const int NumberOfCaseTripleCard = 2197; // 13 * 13 * 13
+            public const int NumberOfCaseStraight = 9; // 13 * 13
+            public const int NumberOfCaseFlush = 1287; // 13 * 13
+            public const int NumberOfCaseBoat = 169; // 13 * 13
+            public const int NumberOfCaseQuadruple = 1287; // 13 * 13
+            public const int NumberOfCaseRoyalFlush = 1287; // 13 * 13
+        }
     }
 
     public static class Config

@@ -1,6 +1,6 @@
 ﻿using static pk_Application.Common.Constant.Config;
 
-namespace pk_Application.Model;
+namespace pk_Application.Model.Card;
 
 public class CardSuit
 {
