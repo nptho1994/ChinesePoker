@@ -521,19 +521,43 @@ namespace DemoChinesePoker
 
         private async void btn_Test_Click(object sender, EventArgs e)
         {
-            rtb_User1.Text = string.Empty;
-            rtb_User2.Text = string.Empty;
-            rtb_User3.Text = string.Empty;
-            var initPoker = new InitDeskCard();
-            var initCard = initPoker.PokerInitiation();
-            var swapCard = initPoker.RandomSwap(initCard);
-            var test = initPoker.GetCardForUser(0, swapCard);
-            foreach (var item in test)
+            //rtb_User1.Text = string.Empty;
+            //rtb_User2.Text = string.Empty;
+            //rtb_User3.Text = string.Empty;
+            //var initPoker = new InitDeskCard();
+            //var initCard = initPoker.PokerInitiation();
+            //var swapCard = initPoker.RandomSwap(initCard);
+            //var test = initPoker.GetCardForUser(0, swapCard);
+            //foreach (var item in test)
+            //{
+            //    rtb_User1.Text += item.Uuid;
+            //    rtb_User2.Text += item.Name;
+            //    rtb_User3.Text += item.IndexOfDesk;
+            //}
+
+            lbl_Description.Text = string.Empty;
+            var count = 0;
+            for(var i1 = 2; i1 < 14; i1++)
             {
-                rtb_User1.Text += item.Uuid;
-                rtb_User2.Text += item.Name;
-                rtb_User3.Text += item.IndexOfDesk;
+                for (var i2 = i1 + 1; i2 < 14; i2++)
+                {
+                    for (var i3 = i2 + 1; i3 < 14; i3++)
+                    {
+                        for (var i4 = i3 + 1; i4 < 14; i4++)
+                        {
+                            for (var i5 = i4 + 1; i5 < 14; i5++)
+                            {
+                                if (i2-i1 > 1 || i3 - i2 > 1 || i4 - i3 > 1 || i5 - i4 > 1)
+                                {
+                                    count++;
+                                }
+                            }
+                        }
+
+                    }
+                }
             }
+            lbl_Description.Text = count.ToString();
         }
 
         private void TestGame()

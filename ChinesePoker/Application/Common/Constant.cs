@@ -12,6 +12,20 @@ public static class Constant
         public const int MaxNumberOfStack3 = 3;
     }
 
+    public static class StackSetting
+    {
+        public static class StackOneSetting
+        {
+            public const int MaxNumberOfMaxCard = 784; // 5C13
+            public const int MaxNumberOfOneDoubleCard = 13 * 286; // 13 * 3C13
+            public const int MaxNumberOfTwoDoubleCard = 2197; // 13 * 13 * 13
+            public const int MaxNumberOfTripleCard = 2197; // 13 * 13 * 13
+            public const int MaxNumberOfBoat = 169; // 13 * 13
+            public const int MaxNumberOfStraight = 9; // 13 * 13
+            public const int MaxNumberOfFlush = 1287; // 13 * 13
+        }
+    }
+
     public static class Config
     {
         public static class Desk
