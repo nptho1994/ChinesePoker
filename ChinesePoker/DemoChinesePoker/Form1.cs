@@ -538,12 +538,12 @@ namespace DemoChinesePoker
             //}
 
             lbl_Description.Text = string.Empty;
-            var maxFiveCard = new MaxFiveCard();
+            var doubleCard = new MaxFiveCard();
 
-            lbl_Description.Text += "Max: " + maxFiveCard.Maximum.ToString() + "\n";
-            lbl_Description.Text += "Min: " + maxFiveCard.Minimum.ToString() + "\n";
+            lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
+            lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";
             int.TryParse(rtb_User1.Text, out var score);
-            var test = maxFiveCard.GetCardsByScore(score);
+            var test = doubleCard.GetCardsByScore(score);
             rtb_User2.Text = string.Empty;
             if (test != null && test.Any())
             {
@@ -551,7 +551,23 @@ namespace DemoChinesePoker
                 {
                     rtb_User2.Text += item.Name + "\t";
                 }
-            }    
+            }
+
+            //lbl_Description.Text = string.Empty;
+            //var doubleCard = new DoubleCard();
+
+            //lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
+            //lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";
+            //int.TryParse(rtb_User1.Text, out var score);
+            //var test = doubleCard.GetCardsByScore(score);
+            //rtb_User2.Text = string.Empty;
+            //if (test != null && test.Any())
+            //{
+            //    foreach (var item in test)
+            //    {
+            //        rtb_User2.Text += item.Name + "\t";
+            //    }
+            //}
         }
 
         private void TestGame()

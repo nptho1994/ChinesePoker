@@ -1,4 +1,6 @@
-﻿namespace pk_Application.Model.CardSetting;
+﻿using static pk_Application.Common.Constant;
+
+namespace pk_Application.Model.CardSetting;
 
 public class Card
 {
@@ -20,7 +22,7 @@ public class Card
         Suit = new CardSuit(suitName);
         Rank = new CardRank(rankName);
         IndexOfDesk = Rank.Index * 4 + Suit.Index;
-        Uuid = Rank.Name + Suit.ShortName;
+        Uuid = Config.CardOfHand.ValidRankName[Rank.Index] + Suit.ShortName;
         Name = Rank.Name + Suit.Value;
     }
 
@@ -36,7 +38,7 @@ public class Card
         Suit = new CardSuit(suitName);
         Rank = new CardRank(rankIndex);
         IndexOfDesk = Rank.Index * 4 + Suit.Index;
-        Uuid = Rank.Name + Suit.ShortName;
+        Uuid = Config.CardOfHand.ValidRankName[Rank.Index] + Suit.ShortName;
         Name = Rank.Name + Suit.Value;
     }
 
@@ -52,12 +54,12 @@ public class Card
         Suit = new CardSuit(suitIndex);
         Rank = new CardRank(rankIndex);
         IndexOfDesk = Rank.Index * 4 + Suit.Index;
-        Uuid = Rank.Name + Suit.ShortName;
+        Uuid = Config.CardOfHand.ValidRankName[Rank.Index] + Suit.ShortName;
         Name = Rank.Name + Suit.Value;
     }
 
     /// <summary>
-    /// Init card by uuid (the input string is get by data stored) (1S) => 1♠
+    /// Init card by uuid (the input string is get by data stored) (1S, 0S,) => 1♠, 10♠
     /// Suit: [Hearts, Diamonds, Clubs, Spades]
     /// Rank: [Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King]
     /// </summary>
@@ -70,16 +72,13 @@ public class Card
             throw new Exception($"Can not generate card with uuid {uuid}");
         }
 
-        var isParseRank = int.TryParse(uuid[0].ToString(), out var rank);
-        if (isParseRank == false)
-        {
-            throw new Exception($"Can not parse rank with value {uuid[0]}");
-        }
+        var indexOfSuit = Config.CardOfHand.ValidSuitShorName.IndexOf(uuid[1]);
+        var indexOfRank = Config.CardOfHand.ValidRankName.IndexOf(uuid[0]);
 
-        Suit = new CardSuit(uuid[1]);
-        Rank = new CardRank(rank);
+        Suit = new CardSuit(indexOfSuit);
+        Rank = new CardRank(indexOfRank);
         IndexOfDesk = Rank.Index * 4 + Suit.Index;
-        Uuid = Rank.Name + Suit.ShortName;
+        Uuid = Config.CardOfHand.ValidRankName[Rank.Index] + Suit.ShortName;
         Name = Rank.Name + Suit.Value;
     }
 }

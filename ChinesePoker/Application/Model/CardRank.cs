@@ -14,6 +14,7 @@ public class CardRank
         switch (index)
         {
             case Rank.IndexOfAce:
+            case Rank.IndexOfLastAce:
                 Name = Rank.NameAce;
                 Point = Rank.PointAce;
                 Index = Rank.IndexOfAce;

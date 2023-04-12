@@ -255,6 +255,7 @@ public static class Constant
             public const int IndexOfJack = 10;
             public const int IndexOfQueen = 11;
             public const int IndexOfKing = 12;
+            public const int IndexOfLastAce = 13;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using pk_Application.Model.CardSetting;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace pk_Application.Model.Type;
 
@@ -62,20 +63,35 @@ public class MaxFiveCard
     public decimal GetTotalCaseOfMaxCard()
     {
         decimal count = 0;
+        string test = string.Empty;
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
-        for (var c1 = 2; c1 <= 10; c1++)
+        for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = c1 + 1; c2 <= 11; c2++)
+            for (var c2 = 2; c2 < c1; c2++)
             {
-                for (var c3 = c2 + 1; c3 <= 12; c3++)
+                for (var c3 = 2; c3 < c2; c3++)
                 {
-                    for (var c4 = c3 + 1; c4 <= 13; c4++)
+                    for (var c4 = 2; c4 < c3; c4++)
                     {
-                        for (var c5 = c4 + 1; c5 <= 14; c5++)
+                        for (var c5 = 2; c5 < c4; c5++)
                         {
-                            if (c2 - c1 > 1 || c3 - c2 > 1 || c4 - c3 > 1 || c5 - c4 > 1)
+                            if (c1 - c2 > 1 || c2 - c3 > 1
+                                || c3 - c4 > 1 || c4 - c5 > 1)
                             {
                                 count++;
+                                var tempCard = new List<Card>();
+                                tempCard.Add(new Card(c1 - 1, 0));
+                                tempCard.Add(new Card(c2 - 1, 1));
+                                tempCard.Add(new Card(c3 - 1, 2));
+                                tempCard.Add(new Card(c4 - 1, 3));
+                                tempCard.Add(new Card(c5 - 1, 0));
+
+                                test += tempCard[0].Uuid
+                                    + tempCard[1].Uuid
+                                    + tempCard[2].Uuid
+                                    + tempCard[3].Uuid
+                                    + tempCard[4].Uuid + "\t"
+                                    + count + "\n";
                             }
                         }
                     }
@@ -126,17 +142,18 @@ public class MaxFiveCard
         var result = new List<Card>();
         decimal count = 0;
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
-        for (var c1 = 2; c1 <= 10; c1++)
+        for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = c1 + 1; c2 <= 11; c2++)
+            for (var c2 = 2; c2 < c1; c2++)
             {
-                for (var c3 = c2 + 1; c3 <= 12; c3++)
+                for (var c3 = 2; c3 < c2; c3++)
                 {
-                    for (var c4 = c3 + 1; c4 <= 13; c4++)
+                    for (var c4 = 2; c4 < c3; c4++)
                     {
-                        for (var c5 = c4 + 1; c5 <= 14; c5++)
+                        for (var c5 = 2; c5 < c4; c5++)
                         {
-                            if (c2 - c1 > 1 || c3 - c2 > 1 || c4 - c3 > 1 || c5 - c4 > 1)
+                            if (c1 - c2 > 1 || c2 - c3 > 1 
+                                || c3 - c4 > 1 || c4 - c5 > 1)
                             {
                                 count++;
                                 if (count == score)
@@ -145,14 +162,7 @@ public class MaxFiveCard
                                     result.Add(new Card(c2 - 1, 1));
                                     result.Add(new Card(c3 - 1, 2));
                                     result.Add(new Card(c4 - 1, 3));
-                                    if (c5 == 14)
-                                    {
-                                        result.Add(new Card(0, 0));
-                                    } 
-                                    else
-                                    {
-                                        result.Add(new Card(c5 - 1, c5 - 1 % 4));
-                                    }
+                                    result.Add(new Card(c5 - 1, 0));
                                 }
                             }
                         }
