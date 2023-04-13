@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace DemoChinesePoker
 {
-    public partial class Form1 : Form
+    public partial class DemoChinesePoker : Form
     {
         private List<CardUnit> _initCardUser1;
         private TreeCard _cardOfUser1;
@@ -24,7 +24,7 @@ namespace DemoChinesePoker
         private decimal Amount = 0;
         private string ButtonNameSelected = string.Empty;
         private string ValueSelected = string.Empty;
-        public Form1()
+        public DemoChinesePoker()
         {
             InitializeComponent();
             lbl_Description.Text = string.Empty;
@@ -537,21 +537,21 @@ namespace DemoChinesePoker
             //    rtb_User3.Text += item.IndexOfDesk;
             //}
 
-            lbl_Description.Text = string.Empty;
-            var doubleCard = new MaxFiveCard();
+            //lbl_Description.Text = string.Empty;
+            //var doubleCard = new MaxFiveCard();
 
-            lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
-            lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";
-            int.TryParse(rtb_User1.Text, out var score);
-            var test = doubleCard.GetCardsByScore(score);
-            rtb_User2.Text = string.Empty;
-            if (test != null && test.Any())
-            {
-                foreach (var item in test)
-                {
-                    rtb_User2.Text += item.Name + "\t";
-                }
-            }
+            //lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
+            //lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";
+            //int.TryParse(rtb_User1.Text, out var score);
+            //var test = doubleCard.GetCardsByScore(score);
+            //rtb_User2.Text = string.Empty;
+            //if (test != null && test.Any())
+            //{
+            //    foreach (var item in test)
+            //    {
+            //        rtb_User2.Text += item.Name + "\t";
+            //    }
+            //}
 
             //lbl_Description.Text = string.Empty;
             //var doubleCard = new DoubleCard();
@@ -568,6 +568,22 @@ namespace DemoChinesePoker
             //        rtb_User2.Text += item.Name + "\t";
             //    }
             //}
+
+            lbl_Description.Text = string.Empty;
+            var doubleCard = new TwoDoubleCard();
+
+            lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
+            lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";
+            int.TryParse(rtb_User1.Text, out var score);
+            var test = doubleCard.GetCardsByScore(score);
+            rtb_User2.Text = string.Empty;
+            if (test != null && test.Any())
+            {
+                foreach (var item in test)
+                {
+                    rtb_User2.Text += item.Name + "\t";
+                }
+            }
         }
 
         private void TestGame()

@@ -1,6 +1,6 @@
 ﻿namespace DemoChinesePoker
 {
-    partial class Form1
+    partial class DemoChinesePoker
     {
         /// <summary>
         ///  Required designer variable.

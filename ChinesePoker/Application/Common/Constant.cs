@@ -16,9 +16,9 @@ public static class Constant
     {
         public static class StackOneSetting
         {
-            public const int MaxNumberOfMaxCard = 784; // 5C13
-            public const int MaxNumberOfOneDoubleCard = 13 * 286; // 13 * 3C13
-            public const int MaxNumberOfTwoDoubleCard = 2197; // 13 * 13 * 13
+            public const int MaxNumberOfMaxCard = 1278;         // Total case = 1278
+            public const int MaxNumberOfOneDoubleCard = 4138;   // Total case = 2860 + 1278
+            public const int MaxNumberOfTwoDoubleCard = 4996;   // Total case = 858
             public const int MaxNumberOfTripleCard = 2197; // 13 * 13 * 13
             public const int MaxNumberOfBoat = 169; // 13 * 13
             public const int MaxNumberOfStraight = 9; // 13 * 13

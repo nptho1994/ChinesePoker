@@ -1,4 +1,8 @@
 ﻿using pk_Application.Model.CardSetting;
+using static pk_Application.Common.Constant.Config;
+using static pk_Application.Common.Constant;
+using static System.Formats.Asn1.AsnWriter;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace pk_Application.Model.Type;
 
@@ -15,7 +19,7 @@ public class DoubleCard
     /// Maximum: The max score for this type. We will using this field to analysic and arrange poker
     /// Minimum:  The min score for this type. We will using this field to analysic and arrange poker
     /// Score: The score for this five cards. It is between Minimum and Maximum
-    /// Level: Level of five card type. It is start by DoubleCard(levle 1) and end by RoyalFlush(level 9)
+    /// Level: Level of five card type. It is start by MaxFiveCard(levle 1) and end by RoyalFlush(level 9)
     /// </summary>
     /// <param name="FiveCard"></param>
     /// <exception cref="Exception"></exception>
@@ -28,9 +32,9 @@ public class DoubleCard
 
         Cards = FiveCard.OrderBy(x => x.Rank.Point).ToList();
         Level = 1;
-        Minimum = 0;
-        Maximum = GetMaximumScoreForDoubleCard();
-        Score = GetScoreForMaxCard();
+        Minimum = StackSetting.StackOneSetting.MaxNumberOfMaxCard + 1;
+        Maximum = Minimum + GetMaximumScoreForDoubleCard();
+        Score = GetScoreForDoubleCard();
     }
 
     /// <summary>
@@ -38,8 +42,8 @@ public class DoubleCard
     /// </summary>
     public DoubleCard()
     {
-        Minimum = 1;
-        Maximum = GetMaximumScoreForDoubleCard();
+        Minimum = StackSetting.StackOneSetting.MaxNumberOfMaxCard + 1;
+        Maximum = Minimum +  GetMaximumScoreForDoubleCard();
     }
 
     /// <summary>
@@ -62,19 +66,33 @@ public class DoubleCard
     public decimal GetTotalCaseOfDoubleCard()
     {
         decimal count = 0;
+        var test = string.Empty;
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
         for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = 2; c2 <= 12; c2++)
+            for (var c2 = 2; c2 <= 14; c2++)
             {
-                for (var c3 = c2 + 1; c3 <= 13; c3++)
+                for (var c3 = 2; c3 < c2; c3++)
                 {
-                    for (var c4 = c3 + 1; c4 <= 14; c4++)
+                    for (var c4 = 2; c4 < c3; c4++)
                     {
-                        if ((c3 - c2 > 0 || c4 - c3 > 0)
+                        if ((c2 - c3 > 0 || c3 - c4 > 0)
                             && (c1 != c2 && c1 != c3 && c1 != c4))
                         {
                             count++;
+                            var tempCard = new List<Card>();
+                            tempCard.Add(new Card(c1 - 1, 0));
+                            tempCard.Add(new Card(c1 - 1, 1));
+                            tempCard.Add(new Card(c2 - 1, 2));
+                            tempCard.Add(new Card(c3 - 1, 3));
+                            tempCard.Add(new Card(c4 - 1, 0));
+
+                            test += CardOfHand.ValidRankName[tempCard[0].Rank.Index].ToString()
+                                + CardOfHand.ValidRankName[tempCard[1].Rank.Index].ToString()
+                                + CardOfHand.ValidRankName[tempCard[2].Rank.Index].ToString()
+                                + CardOfHand.ValidRankName[tempCard[3].Rank.Index].ToString()
+                                + CardOfHand.ValidRankName[tempCard[4].Rank.Index].ToString() + "\t"
+                                + count + "\n";
                         }
                     }
                 }
@@ -89,18 +107,22 @@ public class DoubleCard
     /// Count all case which has score less than this case
     /// </summary>
     /// <returns></returns>
-    private decimal GetScoreForMaxCard()
+    private decimal GetScoreForDoubleCard()
     {
         decimal count = 0;
         for (var c1 = 2; c1 <= Cards[0].Rank.Point; c1++)
         {
-            for (var c2 = Cards[2].Rank.Point + 1; c2 <= Cards[3].Rank.Point; c2++)
+            for (var c2 = 2 ; c2 <= Cards[2].Rank.Point; c2++)
             {
-                for (var c3 = Cards[3].Rank.Point + 1; c3 <= Cards[4].Rank.Point; c3++)
+                for (var c3 = 2; c3 <= Cards[3].Rank.Point; c3++)
                 {
-                    if (c3 - c2 > 0 && c1 != c2 && c1 != c3)
+                    for (var c4 = 2; c4 <= Cards[4].Rank.Point; c3++)
                     {
-                        count++;
+                        if ((c2 - c3 > 0 || c3 - c4 > 0)
+                            && (c1 != c2 && c1 != c3 && c1 != c4))
+                        {
+                            count++;                           
+                        }
                     }
                 }
             }
@@ -120,13 +142,13 @@ public class DoubleCard
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
         for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = 2; c2 <= 12; c2++)
+            for (var c2 = 2; c2 <= 14; c2++)
             {
-                for (var c3 = c2 + 1; c3 <= 13; c3++)
+                for (var c3 = 2; c3 < c2; c3++)
                 {
-                    for (var c4 = c3 + 1; c4 <= 14; c4++)
+                    for (var c4 = 2; c4 < c3; c4++)
                     {
-                        if ((c3 - c2 > 0 || c4 - c3 > 0)
+                        if ((c2 - c3 > 0 || c3 - c4 > 0)
                             && (c1 != c2 && c1 != c3 && c1 != c4))
                         {
                             count++;

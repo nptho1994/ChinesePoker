@@ -1,4 +1,5 @@
 ﻿using pk_Application.Model.CardSetting;
+using static pk_Application.Common.Constant.Config;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace pk_Application.Model.Type;
@@ -29,7 +30,7 @@ public class MaxFiveCard
 
         Cards = FiveCard.OrderBy(x => x.Rank.Point).ToList();
         Level = 1;
-        Minimum = 0;
+        Minimum = 1;
         Maximum = GetMaximumScoreForMaxCard();
         Score = GetScoreForMaxCard();
     }
@@ -86,12 +87,12 @@ public class MaxFiveCard
                                 tempCard.Add(new Card(c4 - 1, 3));
                                 tempCard.Add(new Card(c5 - 1, 0));
 
-                                test += tempCard[0].Uuid
-                                    + tempCard[1].Uuid
-                                    + tempCard[2].Uuid
-                                    + tempCard[3].Uuid
-                                    + tempCard[4].Uuid + "\t"
-                                    + count + "\n";
+                                test += CardOfHand.ValidRankName[tempCard[0].Rank.Index].ToString()
+                               + CardOfHand.ValidRankName[tempCard[1].Rank.Index].ToString()
+                               + CardOfHand.ValidRankName[tempCard[2].Rank.Index].ToString()
+                               + CardOfHand.ValidRankName[tempCard[3].Rank.Index].ToString()
+                               + CardOfHand.ValidRankName[tempCard[4].Rank.Index].ToString() + "\t"
+                               + count + "\n";
                             }
                         }
                     }
