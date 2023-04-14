@@ -570,7 +570,7 @@ namespace DemoChinesePoker
             //}
 
             lbl_Description.Text = string.Empty;
-            var doubleCard = new TwoDoubleCard();
+            var doubleCard = new ThreeCardWithTriple();
 
             lbl_Description.Text += "Max: " + doubleCard.Maximum.ToString() + "\n";
             lbl_Description.Text += "Min: " + doubleCard.Minimum.ToString() + "\n";

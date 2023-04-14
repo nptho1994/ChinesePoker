@@ -6,7 +6,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace pk_Application.Model.Type;
 
-public class TwoDoubleCard
+public class ThreeCard
 {
     public List<Card> Cards { get; set; } = new List<Card>();
     public decimal Maximum { get; set; } = 0;
@@ -15,7 +15,7 @@ public class TwoDoubleCard
     public int Level { get; set; } = 0;
 
     /// <summary>
-    /// TwoDoubleCard mean which has 2 card same rank and three single card
+    /// ThreeCard mean which has 3 card same rank and 2 single card
     /// Maximum: The max score for this type. We will using this field to analysic and arrange poker
     /// Minimum:  The min score for this type. We will using this field to analysic and arrange poker
     /// Score: The score for this five cards. It is between Minimum and Maximum
@@ -23,64 +23,64 @@ public class TwoDoubleCard
     /// </summary>
     /// <param name="FiveCard"></param>
     /// <exception cref="Exception"></exception>
-    public TwoDoubleCard(List<Card> FiveCard)
+    public ThreeCard(List<Card> FiveCard)
     {
         if (FiveCard == null || FiveCard.Count != 5)
         {
-            throw new Exception("Can not generate TwoDoubleCard");
+            throw new Exception("Can not generate ThreeCard");
         }
 
         Cards = FiveCard.OrderBy(x => x.Rank.Point).ToList();
         Level = 1;
-        Minimum = StackSetting.ScoreSetting.MaxNumberOfOneDoubleCard + 1;
-        Maximum = Minimum + GetMaximumScoreForTwoDoubleCard();
-        Score = GetScoreForTwoDoubleCard();
+        Minimum = StackSetting.ScoreSetting.MaxNumberOfTwoDoubleCard + 1;
+        Maximum = Minimum + GetMaximumScoreForThreeCard();
+        Score = GetScoreForThreeCard();
     }
 
     /// <summary>
     /// Get basic info
     /// </summary>
-    public TwoDoubleCard()
+    public ThreeCard()
     {
-        Minimum = StackSetting.ScoreSetting.MaxNumberOfOneDoubleCard + 1;
-        Maximum = Minimum + GetMaximumScoreForTwoDoubleCard();
+        Minimum = StackSetting.ScoreSetting.MaxNumberOfTwoDoubleCard + 1;
+        Maximum = Minimum + GetMaximumScoreForThreeCard();
     }
 
     /// <summary>
-    /// Get maximum score for TwoDoubleCard
+    /// Get maximum score for ThreeCard
     /// </summary>
     /// <returns></returns>
-    public decimal GetMaximumScoreForTwoDoubleCard()
+    public decimal GetMaximumScoreForThreeCard()
     {
         decimal score = 0;
-        var maxCardScore = GetTotalCaseOfTwoDoubleCard();
+        var maxCardScore = GetTotalCaseOfThreeCard();
 
         score += maxCardScore;
         return score;
     }
 
     /// <summary>
-    /// Generate total case for type TwoDoubleCard
+    /// Generate total case for type ThreeCard
     /// </summary>
     /// <returns></returns>
-    public decimal GetTotalCaseOfTwoDoubleCard()
+    public decimal GetTotalCaseOfThreeCard()
     {
         decimal count = 0;
         var test = string.Empty;
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
         for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = 2; c2 < c1; c2++)
+            for (var c2 = 2; c2 <= 14; c2++)
             {
-                for (var c3 = 2; c3 <= 14; c3++)
+                for (var c3 = 2; c3 < c2; c3++)
                 {
-                    if (c3 != c2 && c3 != c1)
+                    if (c1 != c2 && c1 != c3)
                     {
                         count++;
                         var tempCard = new List<Card>();
                         tempCard.Add(new Card(c1 - 1, 0));
                         tempCard.Add(new Card(c1 - 1, 1));
-                        tempCard.Add(new Card(c2 - 1, 2));
+                        tempCard.Add(new Card(c1 - 1, 2));
                         tempCard.Add(new Card(c2 - 1, 3));
                         tempCard.Add(new Card(c3 - 1, 0));
 
@@ -103,16 +103,16 @@ public class TwoDoubleCard
     /// Count all case which has score less than this case
     /// </summary>
     /// <returns></returns>
-    private decimal GetScoreForTwoDoubleCard()
+    private decimal GetScoreForThreeCard()
     {
         decimal count = 0;
         for (var c1 = 2; c1 <= Cards[0].Rank.Point; c1++)
         {
-            for (var c2 = 2 ; c2 <= Cards[2].Rank.Point; c2++)
+            for (var c2 = 2 ; c2 <= Cards[3].Rank.Point; c2++)
             {
                 for (var c3 = 2; c3 <= Cards[4].Rank.Point; c3++)
                 {
-                    if (c3 != c2 && c3 != c1)
+                    if (c1 != c2 && c1 != c3 && c3 < c2)
                     {
                         count++;
                     }
@@ -124,7 +124,7 @@ public class TwoDoubleCard
     }
 
     /// <summary>
-    /// Generate total case for type TwoDoubleCard
+    /// Generate total case for type ThreeCard
     /// </summary>
     /// <returns></returns>
     public List<Card> GetCardsByScore(decimal score)
@@ -134,11 +134,11 @@ public class TwoDoubleCard
         // Card start with rank two (point = 2) and end with rank ace (point = 14)
         for (var c1 = 2; c1 <= 14; c1++)
         {
-            for (var c2 = 2; c2 < c1; c2++)
+            for (var c2 = 2; c2 <= 14; c2++)
             {
-                for (var c3 = 2; c3 <= 14; c3++)
+                for (var c3 = 2; c3 <= c2; c3++)
                 {
-                    if (c3 != c2 && c3 != c1)
+                    if (c1 != c2 && c1 != c3)
                     {
                         count++;
                         if (count == score)

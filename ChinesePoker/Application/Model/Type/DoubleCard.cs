@@ -32,7 +32,7 @@ public class DoubleCard
 
         Cards = FiveCard.OrderBy(x => x.Rank.Point).ToList();
         Level = 1;
-        Minimum = StackSetting.StackOneSetting.MaxNumberOfMaxCard + 1;
+        Minimum = StackSetting.ScoreSetting.MaxNumberOfMaxCard + 1;
         Maximum = Minimum + GetMaximumScoreForDoubleCard();
         Score = GetScoreForDoubleCard();
     }
@@ -42,7 +42,7 @@ public class DoubleCard
     /// </summary>
     public DoubleCard()
     {
-        Minimum = StackSetting.StackOneSetting.MaxNumberOfMaxCard + 1;
+        Minimum = StackSetting.ScoreSetting.MaxNumberOfMaxCard + 1;
         Maximum = Minimum +  GetMaximumScoreForDoubleCard();
     }
 

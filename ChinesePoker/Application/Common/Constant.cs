@@ -14,8 +14,14 @@ public static class Constant
 
     public static class StackSetting
     {
-        public static class StackOneSetting
+        public static class ScoreSetting
         {
+            // 3 cards
+            public const int MaxNumberOf3MaxCard = 1278;
+            public const int MaxNumberOf3DoubleCard = 1278;
+            public const int MaxNumberOf3TripleCard = 1278;
+
+            // 5 cards
             public const int MaxNumberOfMaxCard = 1278;         // Total case = 1278
             public const int MaxNumberOfOneDoubleCard = 4138;   // Total case = 2860 + 1278
             public const int MaxNumberOfTwoDoubleCard = 4996;   // Total case = 858
