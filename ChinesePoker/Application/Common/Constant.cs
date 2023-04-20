@@ -42,6 +42,14 @@ public static class Constant
             public const int Boat = 7;
             public const int Quadruple = 8;
             public const int RoyalFlush = 9;
+            public const int ThreeStraight = 10;
+            public const int ThreeFlush = 11;
+            public const int SixDouble = 12;
+            public const int DragonOneEye = 13;
+            public const int FullDragon = 14;
+            public const int ThreeRoyalFlush = 15;   
+            public const int DragonStraight = 16;
+            public const int DragonRoyalFlush = 17;
 
             public const string NameOfMaxCard = "MaxCard";
             public const string NameOfOneDoubleCard = "OneDoubleCard";

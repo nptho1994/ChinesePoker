@@ -1,4 +1,6 @@
-﻿using pk_Application.Model.CardSetting;
+﻿using pk_Application.Common;
+using pk_Application.Model;
+using pk_Application.Model.CardSetting;
 using static pk_Application.Common.Constant;
 using static pk_Application.Common.Constant.Config;
 
@@ -17,6 +19,8 @@ public class SortPokerCard
     public CardOfTypeSuit Diamonds { get; set; }
     public CardOfTypeSuit Hearts { get; set; }
     public string Uuid { get; set; } = string.Empty;
+    public PokerCard PokerCard { get; set; }
+
     public SortPokerCard(List<Card> cards)
     {
         if (cards.Count != 13)
@@ -39,7 +43,7 @@ public class SortPokerCard
         DoubleCard = new CardDouble(RankCards);
         TripleCard = new CardTriple(RankCards);
         QuadrupleCard = new CardQuadruple(RankCards);
-        Uuid = GeneratePokerUuid();        
+        Uuid = GeneratePokerUuid();
     }
 
     private string GeneratePokerUuid()
@@ -64,5 +68,57 @@ public class SortPokerCard
         }
 
         return result;
+    }
+
+    public PokerCard GetFullPokerCard()
+    {
+        // 1 Find DragonHallFlush
+        var dragonHallFlush = FindDragonHallFlush();
+        if (dragonHallFlush != null)
+        {
+            return dragonHallFlush;
+        }
+
+        // 2 FindDragonHall
+        var dragonHall = FindDragonHall();
+        if (dragonHall != null)
+        {
+            return dragonHall;
+        }
+
+        // 3 Royal Flush
+        var royalFlush = FindRoyalFlush(userCard);
+        if (royalFlush != null)
+        {
+            return royalFlush;
+        }
+
+        //....
+
+        // Default
+        result = FindDefaultSort(userCard);
+    }
+
+    private PokerCard? FindDragonHall()
+    {
+        if (SingleCard.RealCards.Count == Setting.MaxNumberOfCardsOfUser)
+        {
+            return new PokerCard(HandCard);
+        }
+
+        return null;
+    }
+
+    private PokerCard? FindDragonHallFlush()
+    {
+        if (Spades.RealCard.Count == Setting.MaxNumberOfCardsOfUser
+            || Clubs.RealCard.Count == Setting.MaxNumberOfCardsOfUser
+            || Diamonds.RealCard.Count == Setting.MaxNumberOfCardsOfUser
+            || Hearts.RealCard.Count == Setting.MaxNumberOfCardsOfUser)
+        {
+            return new PokerCard(HandCard);
+        }
+
+        return null;
     }
 }
